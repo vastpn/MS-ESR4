@@ -1,0 +1,24 @@
+##########################
+## profile:uat
+##########################
+server:
+  port: 9999
+
+security:
+  user:
+    name: bu-admin
+    password: 123456
+  basic:
+    enabled: true
+
+eureka:
+  instance:
+    hostname: ${spring.application.name}
+  client:
+    register-with-eureka: false
+    fetch-registry: false
+    service-url:
+      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
+  server:
+    enable-self-preservation: true
+    eviction-interval-timer-in-ms: 60000
