@@ -3,4 +3,7 @@
 ##########################
 server:
   port: 9997
+  
+info:
+ test: Remote-Config-Ref-Success
 
