@@ -5,13 +5,12 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.vastpn.framework</groupId>
-    <artifactId>vastpn-order</artifactId>
+    <artifactId>vastpn-user</artifactId>
     <version>1.0-SNAPSHOT</version>
-    <packaging>jar</packaging>
 
-    <name>vastpn-order</name>
+    <name>vastpn-user</name>
     <url>http://www.xxx.com</url>
-    <description>订单服务</description>
+    <description>用户服务</description>
 
     <parent>
         <groupId>com.vastpn.framework</groupId>
@@ -28,25 +27,22 @@
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-eureka</artifactId>
         </dependency>
-        <!--<dependency>-->
-            <!--<groupId>org.springframework.cloud</groupId>-->
-            <!--<artifactId>spring-cloud-starter-feign</artifactId>-->
-        <!--</dependency>-->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-feign</artifactId>
+        </dependency>
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-config</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.vastpn.framework</groupId>
-            <artifactId>swagger-spring-boot-starter</artifactId>
-            <version>1.1.1-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>com.vastpn.framework</groupId>
             <artifactId>vastpn-view-bean</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
+
+
+
     </dependencies>
     <build>
         <plugins>

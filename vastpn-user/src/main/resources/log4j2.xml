@@ -7,10 +7,10 @@
 
     <!-- 日志文件目录、压缩文件目录、日志格式配置 -->
     <properties>
-        <Property name="fileName">./logs/vastpn-order</Property>
-        <Property name="fileGz">./logs/vastpn-order/7z</Property>
-        <Property name="infoFile">vastpn-order.log</Property>
-        <Property name="errorFile">vastpn-orderError.log</Property>
+        <Property name="fileName">./logs/vastpn-user</Property>
+        <Property name="fileGz">./logs/vastpn-user/7z</Property>
+        <Property name="infoFile">vastpn-user.log</Property>
+        <Property name="errorFile">vastpn-userError.log</Property>
         <Property name="PID">????</Property>
         <Property name="LOG_PATTERN">%clr{%d{yyyy-MM-dd HH:mm:ss.SSS}}{faint} %clr{%5p} %clr{${sys:PID}}{magenta} %clr{---}{faint} %clr{[%15.15t]}{faint} %clr{%-40.40c{1.}}{cyan} %clr{:}{faint} %m%n%xwEx</Property>
     </properties>

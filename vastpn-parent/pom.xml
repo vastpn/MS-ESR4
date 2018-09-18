@@ -33,6 +33,7 @@
         <fastjson.version>1.2.47</fastjson.version>
         <springfox-swagger2.version>2.7.0</springfox-swagger2.version>
         <springfox-swagger-ui.version>2.7.0</springfox-swagger-ui.version>
+        <swagger-spring-boot-starter.version>1.1.1-SNAPSHOT</swagger-spring-boot-starter.version>
         <spring-boot-admin.version>1.5.7</spring-boot-admin.version>
 
         <lombok.version>1.18.2</lombok.version>
@@ -106,17 +107,21 @@
         </dependency>
 
         <!-- springfox-swagger2/springfox-swagger-ui openApi doc Test -->
+        <!--<dependency>-->
+            <!--<groupId>io.springfox</groupId>-->
+            <!--<artifactId>springfox-swagger2</artifactId>-->
+            <!--<version>${springfox-swagger2.version}</version>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+            <!--<groupId>io.springfox</groupId>-->
+            <!--<artifactId>springfox-swagger-ui</artifactId>-->
+            <!--<version>${springfox-swagger-ui.version}</version>-->
+        <!--</dependency>-->
         <dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-swagger2</artifactId>
-            <version>${springfox-swagger2.version}</version>
+            <groupId>com.vastpn.framework</groupId>
+            <artifactId>swagger-spring-boot-starter</artifactId>
+            <version>${swagger-spring-boot-starter.version}</version>
         </dependency>
-        <dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-swagger-ui</artifactId>
-            <version>${springfox-swagger-ui.version}</version>
-        </dependency>
-
     </dependencies>
 
     <!-- 项目打包 deploy 到私有仓库配置-->
