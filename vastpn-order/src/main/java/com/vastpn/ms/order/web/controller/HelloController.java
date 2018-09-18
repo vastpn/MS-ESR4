@@ -1,5 +1,6 @@
 package com.vastpn.ms.order.web.controller;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -27,10 +28,14 @@ import java.util.Map;
 @RequestMapping(value = "/order/t1")
 public class HelloController {
 
+    @Value("${info.test}")
+    private String infoTest;
+
     @RequestMapping("/sayHello")
     public Object sayHello(){
         Map<String,Object> result =new HashMap();
         result.put("time",new Date().getTime());
+        result.put("remoteValue",infoTest);
         return result;
     }
 }
