@@ -1,0 +1,10 @@
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://bu-admin:123456@localhost:9999/eureka/
+
+spring:
+  application:
+    name: vastpn-order # 所有服务在注册中心自动转换为大写
+  profiles:
+    active: dev

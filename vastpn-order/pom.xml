@@ -5,13 +5,13 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.vastpn.framework</groupId>
-    <artifactId>vastpn-eureka</artifactId>
+    <artifactId>vastpn-order</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
-    <name>vastpn-eureka</name>
+    <name>vastpn-order</name>
     <url>http://www.xxx.com</url>
-    <description>注册中心</description>
+    <description>订单服务</description>
 
     <parent>
         <groupId>com.vastpn.framework</groupId>
@@ -21,13 +21,21 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-eureka-server</artifactId>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-security</artifactId>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-eureka</artifactId>
         </dependency>
+        <!--<dependency>-->
+            <!--<groupId>org.springframework.cloud</groupId>-->
+            <!--<artifactId>spring-cloud-starter-feign</artifactId>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+            <!--<groupId>org.springframework.cloud</groupId>-->
+            <!--<artifactId>spring-cloud-starter-config</artifactId>-->
+        <!--</dependency>-->
     </dependencies>
     <build>
         <plugins>
@@ -37,5 +45,4 @@
             </plugin>
         </plugins>
     </build>
-
 </project>
