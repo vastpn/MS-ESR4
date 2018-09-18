@@ -1,0 +1,66 @@
+server:
+  port: 9998
+#开启动态刷新
+#management:
+#  endpoints:
+#    web:
+#      exposure:
+#        include:
+#        - bus-refresh
+
+#注册中心
+eureka:
+  instance:
+    hostname: ${spring.application.name}
+    prefer-ip-address: true
+  client:
+    serviceUrl:
+      defaultZone: http://bu-admin:123456@localhost:9999/eureka/
+
+spring:
+  http:
+    encoding:
+      charset: UTF-8
+  application:
+    name: vastpn-config
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://github.com/vastpn/MS-ESR4.git
+          search-paths: /vastpn-remote-config/**
+          username: vastpn
+          password: Jiangccvastpn0128
+
+
+
+###########################################SVN###########################################
+#spring:
+#  http:
+#    encoding:
+#      charset: UTF-8
+#  application:
+#    name: jvv-bu-config-server
+#  profiles:
+#    active: subversion
+#  cloud:
+#    inetutils:
+#      ignored-interfaces:
+#      - eth0
+#    config:
+#      #客户端快速失败
+#      fail-fast: true
+#      server:
+#        svn:
+#          uri: https://192.168.1.5/svn/bu/trunk/microservice/remote-config/
+#          search-paths: /**     # equals  '{application}'
+#          username: tanlin
+#          password: sdrpfBZTG8HQ
+#          default-label: null
+###########################################SVN###########################################
+
+#  rabbitmq:
+#    host: 127.0.0.1
+#    port: 5672
+#    username: huanbo
+#    password: huanbo123

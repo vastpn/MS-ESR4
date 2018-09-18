@@ -6,5 +6,12 @@ eureka:
 spring:
   application:
     name: vastpn-order # 所有服务在注册中心自动转换为大写
-  profiles:
-    active: dev
+#  profiles:
+#    active: dev
+  cloud:
+    config:
+      enabled: true
+      profile: dev
+      discovery:
+        enabled: true
+        service-id: vastpn-config
