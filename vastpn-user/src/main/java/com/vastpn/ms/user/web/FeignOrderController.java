@@ -31,7 +31,7 @@ import java.util.Map;
  */
 @Api(value = "FeignOrderController", tags = "FeignOrderTest")
 @RestController
-@RequestMapping(value = "/order/t1",produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+@RequestMapping(value = "/user/t1",produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 public class FeignOrderController {
 
     @Autowired

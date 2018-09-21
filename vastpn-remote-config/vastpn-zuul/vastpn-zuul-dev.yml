@@ -3,3 +3,16 @@
 ##########################
 server:
   port: 9900
+
+
+zuul:
+  routes:
+  ignore-security-headers: false      # 安全头信息会向下游传递
+    vastpn-order:
+      path: /order/**                   #请求前缀
+      serviceId: vastpn-order           #路由目标微服务名称
+      stripPrefix: false                # 当前版本默认为true，访问时必须加服务名称前缀；false时不需要填写服务名称
+    vastpn-user:
+      path: /user/**
+      serviceId: vastpn-user
+      stripPrefix: false
