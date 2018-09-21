@@ -6,9 +6,9 @@ server:
 
 
 zuul:
-  routes:
   # 安全头信息会向下游传递
   ignore-security-headers: false
+  routes:
     vastpn-order:
       #请求前缀
       path: /order/**
