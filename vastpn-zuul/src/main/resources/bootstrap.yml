@@ -1,0 +1,23 @@
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://bu-admin:123456@localhost:9999/eureka/
+
+spring:
+  application:
+    name: vastpn-zuul # 所有服务在注册中心自动转换为大写
+#  profiles:
+#    active: dev
+  cloud:
+    config:
+      enabled: true
+      profile: dev
+      discovery:
+        enabled: true
+        service-id: vastpn-config
+      fail-fast: true
+      retry:
+        initial-interval: 20000
+        max-attempts: 6
+        max-interval: 3000
+        multiplier: 1.1
