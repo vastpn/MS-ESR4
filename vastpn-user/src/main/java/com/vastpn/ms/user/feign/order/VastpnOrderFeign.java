@@ -1,6 +1,7 @@
 package com.vastpn.ms.user.feign.order;
 
 import com.vastpn.ms.order.web.vo.HelloVO;
+import com.vastpn.ms.user.feignfallback.order.OrderFeignFallback;
 import org.springframework.cloud.netflix.feign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,7 +21,7 @@ import org.springframework.web.bind.annotation.*;
  * <pre>
  */
 
-@FeignClient(value = "vastpn-order")
+@FeignClient(value = "vastpn-order" ,fallback = OrderFeignFallback.class)
 public interface VastpnOrderFeign {
 
     @RequestMapping(value = "order/t1/sayHello",method = RequestMethod.GET)
@@ -40,4 +41,5 @@ public interface VastpnOrderFeign {
 
     @PostMapping(value = "order/t1/getResultPostAnly")
     Object getResultPostAnly(@RequestParam("helloVO") HelloVO helloVO);
+
 }
