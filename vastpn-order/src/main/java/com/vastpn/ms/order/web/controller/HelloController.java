@@ -49,11 +49,6 @@ public class HelloController {
     @ApiOperation(value = "通讯测试", httpMethod = "GET", notes = "通讯测试")
     @RequestMapping(value = "/sayHello",method = RequestMethod.GET)
     public Object sayHello(){
-        try {
-            Thread.sleep(4000L);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
         Map<String,Object> result =new HashMap();
         result.put("context","无参API");
         result.put("time",new Date().getTime());
@@ -82,11 +77,6 @@ public class HelloController {
     })
     @PostMapping(value = "/getResult")
     public Object getResult(String stringParam,Integer intParam,Long longParam){
-        try {
-            Thread.sleep(6000L);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
         Map<String,Object> result =new HashMap();
         result.put("context","注解方法：@ApiImplicitParams({@ApiImplicitParam})");
         result.put("time",new Date().getTime());

@@ -7,8 +7,13 @@ import org.springframework.web.bind.annotation.*;
 
 /**
  * <pre>
- * <b>.</b>
- * <b>Description:</b>
+ * <b>Feign 远程调用服务端.</b>
+ * <b>Description:
+ *      FeignClient(value = "vastpn-order" ,path = "order/t1",fallback = OrderFeignFallback.class)
+ *          value= 微服务名称
+ *          path=公共前缀
+ *          fallback=降级回调配置
+ * </b>
  *
  * <b>Author: 641597345@qq.com </b>
  * <b>Date: 2018/9/18 0018 16:41   </b>
@@ -21,25 +26,27 @@ import org.springframework.web.bind.annotation.*;
  * <pre>
  */
 
-@FeignClient(value = "vastpn-order" ,fallback = OrderFeignFallback.class)
+@FeignClient(value = "vastpn-order" ,path = "order/t1"
+        ,fallback = OrderFeignFallback.class //生产开启
+)
 public interface VastpnOrderFeign {
 
-    @RequestMapping(value = "order/t1/sayHello",method = RequestMethod.GET)
+    @RequestMapping(value = "/sayHello",method = RequestMethod.GET)
     Object sayHello();
 
-    @PostMapping(value = "order/t1/getResult")
+    @PostMapping(value = "/getResult")
     Object getResult(@RequestParam(name = "stringParam") String stringParam,
                      @RequestParam(name = "intParam") Integer intParam,
                      @RequestParam(name = "longParam") Long longParam);
 
-    @PostMapping(value = "order/t1/getResultPost")
+    @PostMapping(value = "/getResultPost")
     Object getResultPost(@RequestParam(name = "stringParam") String stringParam,
                                 @RequestParam(name = "intParam") Integer intParam,
                                 @RequestParam(name = "longParam") Long longParam);
-    @PostMapping(value = "order/t1/getResultPostJson")
+    @PostMapping(value = "/getResultPostJson")
     Object getResultPostJson(@RequestBody HelloVO helloVO);
 
-    @PostMapping(value = "order/t1/getResultPostAnly")
+    @PostMapping(value = "/getResultPostAnly")
     Object getResultPostAnly(@RequestParam("helloVO") HelloVO helloVO);
 
 }

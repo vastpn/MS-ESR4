@@ -21,14 +21,31 @@ spring:
         max-attempts: 6
         max-interval: 3000
         multiplier: 1.1
-
 # Feign开启降级服务；启动类无需hystrix注解；写降级类组件，实现feign业务接口即可
 feign:
+  httpclient:
+    enabled: false
+    connection-timeout: 1000
+    max-connections: 500
+    max-connections-per-route: 100
+  okhttp:
+    enabled: true
   hystrix:
     enabled: true
-
-
+  compression:
+    response: true
+    request:
+      enabled: true
+      mime-types: text/xml,application/xml,application/json
+      min-request-size: 2048
 # Feign 调用超时设置，默认已启用客户端负载ribbon，设置ribbon超时时间有效，其他配置无效
 ribbon:
-  ReadTimeout: 3000
+  ReadTimeout: 6000
   ConnectTimeout: 1000
+
+hystrix:
+  threadpool:
+    default:
+      coreSize: 300
+      maximumSize: 350
+
