@@ -14,6 +14,12 @@ security:
 eureka:
   instance:
     hostname: ${spring.application.name}
+    # 表示eureka server至上一次收到client的心跳之后，等待下一次心跳的超时时间，在这个时间内若没收到下一次心跳，则将移除该instance
+    # lease-expiration-duration-in-seconds > lease-renewal-interval-in-seconds
+    lease-expiration-duration-in-seconds: 60
+    # ureka client发送心跳给server端的频率
+    # lease-renewal-interval-in-seconds < lease-expiration-duration-in-seconds
+    lease-renewal-interval-in-seconds: 10
   client:
     register-with-eureka: false
     fetch-registry: false

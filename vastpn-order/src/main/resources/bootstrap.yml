@@ -1,4 +1,6 @@
 eureka:
+  instance:
+    lease-renewal-interval-in-seconds: 10
   client:
     serviceUrl:
       defaultZone: http://bu-admin:123456@localhost:9999/eureka/

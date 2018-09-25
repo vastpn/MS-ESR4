@@ -13,6 +13,7 @@ eureka:
   instance:
     hostname: ${spring.application.name}
     prefer-ip-address: true
+    lease-renewal-interval-in-seconds: 10
   client:
     serviceUrl:
       defaultZone: http://bu-admin:123456@localhost:9999/eureka/

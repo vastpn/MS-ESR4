@@ -1,4 +1,6 @@
 eureka:
+  instance:
+    lease-renewal-interval-in-seconds: 10
   client:
     serviceUrl:
       defaultZone: http://bu-admin:123456@localhost:9999/eureka/
@@ -22,5 +24,8 @@ spring:
         max-interval: 3000
         multiplier: 1.1
 
-
-
+# Hystrix的线程隔离策略将会作用于所有路由;同时每个路由采用独立线程池，避免雪崩
+zuul:
+  ribbon-isolation-strategy: thread
+  thread-pool:
+    use-separate-thread-pools: true
