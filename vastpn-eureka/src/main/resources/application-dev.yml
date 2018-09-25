@@ -26,5 +26,7 @@ eureka:
     service-url:
       defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
   server:
+    #自我保护
     enable-self-preservation: true
-    eviction-interval-timer-in-ms: 60000
+    #清理间隔-单位毫秒
+    eviction-interval-timer-in-ms: 30000
