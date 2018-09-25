@@ -28,7 +28,7 @@ spring:
 feign:
   httpclient:
     enabled: false
-    connection-timeout: 1000
+    connection-timeout: 6000
     max-connections: 500
     max-connections-per-route: 100
   okhttp:
@@ -44,12 +44,12 @@ feign:
   client:
     config:
       default:
-        connectTimeout: 3000
+        connectTimeout: 6000
         readTimeout: 6000
 #======================Feign 调用超时设置，默认已启用客户端负载ribbon，设置ribbon超时时间有效，其他配置无效
 ribbon:
   ReadTimeout: 6000
-  ConnectTimeout: 3000
+  ConnectTimeout: 6000
 
 hystrix:
   command:
@@ -59,6 +59,7 @@ hystrix:
           enabled: true
         isolation:
           thread:
+            # timeoutInMilliseconds > (ribbonReadTimeout + ribbonConnectTimeout) * (maxAutoRetries + 1) * (maxAutoRetriesNextServer + 1);
             timeoutInMilliseconds: 6000
   threadpool:
     default:

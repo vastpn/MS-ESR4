@@ -30,15 +30,19 @@ zuul:
   ribbon-isolation-strategy: thread
   thread-pool:
     use-separate-thread-pools: true
-#============Zuul的路由使用了Ribbon
+  host:
+    connect-timeout-millis: 6000
+    socket-timeout-millis: 6000
+ribbon:
+  ReadTimeout: 6000
+  ConnectTimeout: 6000
+
 hystrix:
   command:
     default:
       execution:
         isolation:
           thread:
-            timeoutInMilliseconds: 6000
-ribbon:
-  ReadTimeout: 6000
-  ConnectTimeout: 3000
+            # timeoutInMilliseconds > (ribbonReadTimeout + ribbonConnectTimeout) * (maxAutoRetries + 1) * (maxAutoRetriesNextServer + 1);
+            timeoutInMilliseconds: 60000
 #============Zuul的路由使用了Ribbon
