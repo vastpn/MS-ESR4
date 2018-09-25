@@ -111,9 +111,24 @@ public class HelloController {
         return result;
     }
 
+    /**
+     * <pre>
+     * <b>Feign调用，服务端的错误配置示例.</b>
+     * <b>Description:
+     *  该示例为错误的feign调用方法，因不能获取到参数，必须增加@RequestBody 注解；非feign调用能获取参数；
+     * </b>
+     *
+     * <b>Author: 641597345@qq.com </b>
+     * <b>Date: 2018/9/25 0025 11:46 </b>
+     * @param helloVO
+     * @return java.lang.Object
+     * <pre>
+     */
+    @Deprecated
     @ApiOperation(value = "自定义对象参数：Form", notes = "自定义对象参数：Form")
     @PostMapping(value = "/getResultPostAnly")
     public Object getResultPostAnly(HelloVO helloVO){
+
         Map<String,Object> result =new HashMap();
         result.put("context","自定义对象参数：Form");
         result.put("time",new Date().getTime());

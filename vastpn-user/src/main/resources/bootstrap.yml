@@ -41,14 +41,28 @@ feign:
       enabled: true
       mime-types: text/xml,application/xml,application/json
       min-request-size: 2048
-# Feign 调用超时设置，默认已启用客户端负载ribbon，设置ribbon超时时间有效，其他配置无效
+  client:
+    config:
+      default:
+        connectTimeout: 3000
+        readTimeout: 6000
+#======================Feign 调用超时设置，默认已启用客户端负载ribbon，设置ribbon超时时间有效，其他配置无效
 ribbon:
   ReadTimeout: 6000
-  ConnectTimeout: 1000
+  ConnectTimeout: 3000
 
 hystrix:
+  command:
+    default:
+      execution:
+        timeout:
+          enabled: true
+        isolation:
+          thread:
+            timeoutInMilliseconds: 6000
+
   threadpool:
     default:
       coreSize: 300
       maximumSize: 350
-
+#======================Feign 调用超时设置，默认已启用客户端负载ribbon，设置ribbon超时时间有效，其他配置无效

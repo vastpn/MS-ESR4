@@ -30,3 +30,15 @@ zuul:
   ribbon-isolation-strategy: thread
   thread-pool:
     use-separate-thread-pools: true
+#============Zuul的路由使用了Ribbon
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 6000
+ribbon:
+  ReadTimeout: 6000
+  ConnectTimeout: 3000
+#============Zuul的路由使用了Ribbon
