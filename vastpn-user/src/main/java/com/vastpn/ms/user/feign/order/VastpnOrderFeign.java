@@ -13,6 +13,26 @@ import org.springframework.web.bind.annotation.*;
  *          value= 微服务名称
  *          path=公共前缀
  *          fallback=降级回调配置
+ *
+ *      注意：
+ *          1、FeignClient 尽量使用  name或者value  ,不建议使用serviceId（版本已废弃）；
+ *          2、FeignClient接口中，如果使用到@PathVariable ，必须指定其value
+ *              示例：  @RequestMapping(value = "/simple/{id}", method = RequestMethod.GET)
+ *                      public User findById(@PathVariable("id") Long id);
+ *          3、尽量用@RequestMapping ，不建议直接使用 @GetMapping、@PostMapping
+ *          4、Get请求时，多个参数传递正确方法
+ *               正确示例：  @RequestMapping(value = "/query-by", method = RequestMethod.GET)
+ *                           public User queryBy(@RequestParam("id")Long id, @RequestParam("username")String username);
+ *                   或者：  @RequestMapping(value = "/query-by", method = RequestMethod.GET)
+ *                           public List<User> queryBy(@RequestParam Map<String, Object> param);
+ *
+ *               错误示例：  @RequestMapping(value = "/query-by", method = RequestMethod.GET)
+ *                           public User queryBy(User user);
+ *
+ *           5、feign可以使用占位符，服务名称、地址等信息可以配置在yml或者properties文件中：
+ *                   示例：  @FeignClient(name = "${feign.name}", url = "${feign.url}")
+ *
+ *
  * </b>
  *
  * <b>Author: 641597345@qq.com </b>
@@ -26,7 +46,7 @@ import org.springframework.web.bind.annotation.*;
  * <pre>
  */
 
-@FeignClient(value = "vastpn-order" ,path = "order/t1"
+@FeignClient(value = "vastpn-order" ,path = "${vastpn-order.feign.path}"
         ,fallback = OrderFeignFallback.class //生产开启
 )
 public interface VastpnOrderFeign {

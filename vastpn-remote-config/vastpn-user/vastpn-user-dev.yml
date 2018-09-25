@@ -15,3 +15,7 @@ spring:
       contactName: BBB
       contactEmail: vastpn@info.com
       contactUrl: http://www.vastpn.com
+
+vastpn-order:
+  feign:
+    path: order/t1
