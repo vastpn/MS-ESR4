@@ -1,0 +1,22 @@
+##########################
+## profile:dev
+##########################
+management:
+  security:
+    enabled: false
+server:
+  port: 9994
+  
+info:
+ test: Remote-Config-Ref-Success
+
+spring:
+  boot:
+    swagger2:
+      enable: true
+      title: 订单开放平台
+      description: 订单开放平台
+      version: 1.1.1
+      contactName: AAAA
+      contactEmail: vastpn@info.com
+      contactUrl: http://www.vastpn.com

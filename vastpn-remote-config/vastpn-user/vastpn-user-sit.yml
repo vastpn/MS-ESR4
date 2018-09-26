@@ -1,0 +1,24 @@
+##########################
+## profile:dev
+##########################
+management:
+  security:
+    enabled: false
+server:
+  port: 9995
+
+
+spring:
+  boot:
+    swagger2:
+      enable: true
+      title: 用户开放平台
+      description: 用户开放平台
+      version: 1.1.1
+      contactName: BBB
+      contactEmail: vastpn@info.com
+      contactUrl: http://www.vastpn.com
+
+vastpn-order:
+  feign:
+    path: order/t1
