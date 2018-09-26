@@ -2,6 +2,7 @@ package com.vastpn.ms.order;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.client.SpringCloudApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 
 /**
@@ -19,9 +20,7 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
  *   1.0   2018/9/17 0017 18:03          641597345@qq.com            new file.
  * <pre>
  */
-
-@EnableDiscoveryClient
-@SpringBootApplication
+@SpringCloudApplication
 public class OrderApplication {
 
     public static void main(String[] args) {

@@ -24,9 +24,9 @@ import org.springframework.cloud.netflix.eureka.server.EnableEurekaServer;
  * <pre>
  */
 
+@Log4j2
 @EnableEurekaServer
 @SpringBootApplication
-@Log4j2
 public class EurekaApplication {
 
     private final static Logger logger =  LogManager.getLogger(EurekaApplication.class);

@@ -1,0 +1,79 @@
+turbine:
+  app-config: vastpn-zuul #收集监控信息的服务名
+  combine-host-port: true
+  cluster-name-expression: new String('default') #集群名称
+
+eureka:
+  instance:
+    lease-renewal-interval-in-seconds: 10
+    lease-expiration-duration-in-seconds: 60
+  client:
+    serviceUrl:
+      defaultZone: http://bu-admin:123456@localhost:9999/eureka/
+
+spring:
+  application:
+    name: vastpn-admin # 所有服务在注册中心自动转换为大写
+  boot:
+    admin:
+      turbine:
+        location: monitor
+      routes:
+        endpoints: env,metrics,trace,dump,jolokia,info,configprops,trace,logfile,refresh,flyway,heapdump,loggers,auditevents,hystrix.stream,turbine.stream
+#  profiles:
+#    active: dev
+  cloud:
+    config:
+      enabled: true
+      profile: dev
+      discovery:
+        enabled: true
+        service-id: vastpn-config
+      fail-fast: true
+      retry:
+        initial-interval: 20000
+        max-attempts: 6
+        max-interval: 3000
+        multiplier: 1.1
+# Feign开启降级服务；启动类无需hystrix注解；写降级类组件，实现feign业务接口即可
+feign:
+  httpclient:
+    enabled: false
+    connection-timeout: 6000
+    max-connections: 500
+    max-connections-per-route: 100
+  okhttp:
+    enabled: true
+  hystrix:
+    enabled: true
+  compression:
+    response: true
+    request:
+      enabled: true
+      mime-types: text/xml,application/xml,application/json
+      min-request-size: 2048
+  client:
+    config:
+      default:
+        connectTimeout: 6000
+        readTimeout: 6000
+#======================Feign 调用超时设置，默认已启用客户端负载ribbon，设置ribbon超时时间有效，其他配置无效
+ribbon:
+  ReadTimeout: 6000
+  ConnectTimeout: 6000
+
+hystrix:
+  command:
+    default:
+      execution:
+        timeout:
+          enabled: true
+        isolation:
+          thread:
+            # timeoutInMilliseconds > (ribbonReadTimeout + ribbonConnectTimeout) * (maxAutoRetries + 1) * (maxAutoRetriesNextServer + 1);
+            timeoutInMilliseconds: 6000
+  threadpool:
+    default:
+      coreSize: 300
+      maximumSize: 350
+#======================Feign 调用超时设置，默认已启用客户端负载ribbon，设置ribbon超时时间有效，其他配置无效
