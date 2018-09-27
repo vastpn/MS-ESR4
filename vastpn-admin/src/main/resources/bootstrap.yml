@@ -1,8 +1,13 @@
+#################################################
+# 集群监控配置
+#################################################
 turbine:
   app-config: vastpn-zuul,vastpn-config,vastpn-order,vastpn-user #收集监控信息的服务名
   combine-host-port: true
   cluster-name-expression: new String('default') #集群名称
-
+#################################################
+# 注册中心配置
+#################################################
 eureka:
   instance:
     lease-renewal-interval-in-seconds: 10
@@ -10,18 +15,18 @@ eureka:
   client:
     serviceUrl:
       defaultZone: http://bu-admin:123456@localhost:9999/eureka/
-
+#################################################
+# 项目基础配置、远程配置中心、监控配置
+#################################################
 spring:
   application:
-    name: vastpn-admin # 所有服务在注册中心自动转换为大写
+    name: vastpn-admin
   boot:
     admin:
       turbine:
         location: vastpn-admin
       routes:
         endpoints: env,metrics,trace,dump,jolokia,info,configprops,trace,logfile,refresh,flyway,heapdump,loggers,auditevents,hystrix.stream,turbine.stream
-#  profiles:
-#    active: dev
   cloud:
     config:
       enabled: true
@@ -35,7 +40,10 @@ spring:
         max-attempts: 6
         max-interval: 3000
         multiplier: 1.1
+#################################################
+# Feign配置
 # Feign开启降级服务；启动类无需hystrix注解；写降级类组件，实现feign业务接口即可
+#################################################
 feign:
   httpclient:
     enabled: false
@@ -57,11 +65,14 @@ feign:
       default:
         connectTimeout: 6000
         readTimeout: 6000
-#======================Feign 调用超时设置，默认已启用客户端负载ribbon，设置ribbon超时时间有效，其他配置无效
+#################################################
+# 超时配置
+# Feign+Ribbon 超时设置，默认已启用客户端负载ribbon;设置ribbon超时时间有效，其他配置无效
+# timeoutInMilliseconds > (ribbonReadTimeout + ribbonConnectTimeout) * (maxAutoRetries + 1) * (maxAutoRetriesNextServer + 1);
+#################################################
 ribbon:
   ReadTimeout: 6000
   ConnectTimeout: 6000
-
 hystrix:
   command:
     default:
@@ -70,10 +81,25 @@ hystrix:
           enabled: true
         isolation:
           thread:
-            # timeoutInMilliseconds > (ribbonReadTimeout + ribbonConnectTimeout) * (maxAutoRetries + 1) * (maxAutoRetriesNextServer + 1);
             timeoutInMilliseconds: 6000
   threadpool:
     default:
       coreSize: 300
       maximumSize: 350
-#======================Feign 调用超时设置，默认已启用客户端负载ribbon，设置ribbon超时时间有效，其他配置无效
+
+
+#################################################
+#undertow运行容器配置(性能>Tomcat)
+#################################################
+server:
+  undertow:
+    #【I/O线程数】CPU 数量;它主要执行非阻塞的任务,它们会负责多个连接, 默认设置每个CPU核心为一个线程.不要设置过大，如果过大，启动项目会报错：打开文件数过多
+    io-threads: 2
+    #【工作线程数】：CPU 数量*8;阻塞任务线程池, 当执行类似servlet请求阻塞IO操作, undertow会从这个线程池中取得线程.它的值设置取决于系统线程执行任务的阻塞系数，默认值是IO线程数*8
+    worker-threads: 16
+    #【是否堆之外分配缓冲区】是否分配的直接内存(NIO直接分配的堆外内存)
+    direct-buffers: true
+    # 【每个缓冲区的大小（以字节为单位）】配置会影响buffer,这些buffer会用于服务器连接的IO操作,有点类似netty的池化内存管理；每块buffer的空间大小,越小的空间被利用越充分，不要设置太大，以免影响其他应用，合适即可
+    buffer-size: 512
+    #【Http最大请求数量】
+    max-http-post-size: 5000

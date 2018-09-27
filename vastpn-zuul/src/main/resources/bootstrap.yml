@@ -1,4 +1,6 @@
-################注册中心配置################
+#################################################
+# 注册中心配置
+#################################################
 eureka:
   instance:
     lease-renewal-interval-in-seconds: 10
@@ -7,11 +9,12 @@ eureka:
     serviceUrl:
       defaultZone: http://bu-admin:123456@localhost:9999/eureka/
 
-################项目基础配置、远程配置中心################
+#################################################
+# 项目基础配置、远程配置中心
+#################################################
 spring:
   application:
-    name: vastpn-zuul # 所有服务在注册中心自动转换为大写
-
+    name: vastpn-zuul
   cloud:
     config:
       enabled: true
@@ -25,15 +28,28 @@ spring:
         max-attempts: 6
         max-interval: 3000
         multiplier: 1.1
-
+#################################################
+# 线程池模式配置
+#################################################
 zuul:
   ribbon-isolation-strategy: THREAD
   ########路由方式为 url，zuul.host.connect-timeout-millis、zuul.host.socket-timeout-millis生效
-  host:
-    socket-timeout-millis: 60000
-    connect-timeout-millis: 60000
+#  host:
+#    socket-timeout-millis: 60000
+#    connect-timeout-millis: 60000
   ########路由方式为 url，zuul.host.connect-timeout-millis、zuul.host.socket-timeout-millis生效
 
+#################################################
+#  ZUUL超时配置
+#  1、路由转发为serviceId方式时，ribbon超时生效
+#  2、路由方式为URL方式时，zuul.host超时生效
+#################################################
+ribbon:
+  ReadTimeout: 6000
+  ConnectTimeout: 6000
+#################################################
+#  ZUUL熔断超时配置
+#################################################
 hystrix:
   command:
     default:
@@ -53,6 +69,10 @@ hystrix:
       allowMaximumSizeToDivergeFromCoreSize: true
       #线程池的队列大小，-1代表使用SynchronousQueue队列
       maxQueueSize: -1
+
+#################################################
+#undertow运行容器配置(性能>Tomcat)
+#################################################
 server:
   undertow:
     #【I/O线程数】CPU 数量;它主要执行非阻塞的任务,它们会负责多个连接, 默认设置每个CPU核心为一个线程.不要设置过大，如果过大，启动项目会报错：打开文件数过多
