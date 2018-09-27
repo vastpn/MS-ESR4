@@ -71,9 +71,21 @@
                 </exclusion>
             </exclusions>
         </dependency>
+
+        <!-- 移除 tomcat 容器，改为undertow，提升整体性能  -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-tomcat</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-undertow</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.cloud</groupId>
@@ -120,16 +132,6 @@
         </dependency>
 
         <!-- springfox-swagger2/springfox-swagger-ui openApi doc Test -->
-        <!--<dependency>-->
-            <!--<groupId>io.springfox</groupId>-->
-            <!--<artifactId>springfox-swagger2</artifactId>-->
-            <!--<version>${springfox-swagger2.version}</version>-->
-        <!--</dependency>-->
-        <!--<dependency>-->
-            <!--<groupId>io.springfox</groupId>-->
-            <!--<artifactId>springfox-swagger-ui</artifactId>-->
-            <!--<version>${springfox-swagger-ui.version}</version>-->
-        <!--</dependency>-->
         <dependency>
             <groupId>com.vastpn.framework</groupId>
             <artifactId>swagger-spring-boot-starter</artifactId>

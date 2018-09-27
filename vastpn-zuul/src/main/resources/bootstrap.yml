@@ -1,3 +1,4 @@
+################注册中心配置################
 eureka:
   instance:
     lease-renewal-interval-in-seconds: 10
@@ -6,11 +7,11 @@ eureka:
     serviceUrl:
       defaultZone: http://bu-admin:123456@localhost:9999/eureka/
 
+################项目基础配置、远程配置中心################
 spring:
   application:
     name: vastpn-zuul # 所有服务在注册中心自动转换为大写
-#  profiles:
-#    active: dev
+
   cloud:
     config:
       enabled: true
@@ -25,24 +26,42 @@ spring:
         max-interval: 3000
         multiplier: 1.1
 
-# Hystrix的线程隔离策略将会作用于所有路由;同时每个路由采用独立线程池，避免雪崩
 zuul:
-  ribbon-isolation-strategy: thread
-  thread-pool:
-    use-separate-thread-pools: true
+  ribbon-isolation-strategy: THREAD
+  ########路由方式为 url，zuul.host.connect-timeout-millis、zuul.host.socket-timeout-millis生效
   host:
-    connect-timeout-millis: 6000
-    socket-timeout-millis: 6000
-ribbon:
-  ReadTimeout: 6000
-  ConnectTimeout: 6000
+    socket-timeout-millis: 60000
+    connect-timeout-millis: 60000
+  ########路由方式为 url，zuul.host.connect-timeout-millis、zuul.host.socket-timeout-millis生效
 
 hystrix:
   command:
     default:
       execution:
+        timeout:
+          enabled: true
         isolation:
           thread:
-            # timeoutInMilliseconds > (ribbonReadTimeout + ribbonConnectTimeout) * (maxAutoRetries + 1) * (maxAutoRetriesNextServer + 1);
             timeoutInMilliseconds: 60000
-#============Zuul的路由使用了Ribbon
+  threadpool:
+    default:
+      #核心线程数
+      coreSize: 100
+      #最大线程数
+      maximumSize: 2000
+      #是否让maximumSize生效，false则只有coreSize会生效
+      allowMaximumSizeToDivergeFromCoreSize: true
+      #线程池的队列大小，-1代表使用SynchronousQueue队列
+      maxQueueSize: -1
+server:
+  undertow:
+    #【I/O线程数】CPU 数量;它主要执行非阻塞的任务,它们会负责多个连接, 默认设置每个CPU核心为一个线程.不要设置过大，如果过大，启动项目会报错：打开文件数过多
+    io-threads: 2
+    #【工作线程数】：CPU 数量*8;阻塞任务线程池, 当执行类似servlet请求阻塞IO操作, undertow会从这个线程池中取得线程.它的值设置取决于系统线程执行任务的阻塞系数，默认值是IO线程数*8
+    worker-threads: 16
+    #【是否堆之外分配缓冲区】是否分配的直接内存(NIO直接分配的堆外内存)
+    direct-buffers: true
+    # 【每个缓冲区的大小（以字节为单位）】配置会影响buffer,这些buffer会用于服务器连接的IO操作,有点类似netty的池化内存管理；每块buffer的空间大小,越小的空间被利用越充分，不要设置太大，以免影响其他应用，合适即可
+    buffer-size: 512
+    #【Http最大请求数量】
+    max-http-post-size: 5000

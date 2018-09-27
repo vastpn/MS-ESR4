@@ -1,5 +1,5 @@
 turbine:
-  app-config: vastpn-zuul #收集监控信息的服务名
+  app-config: vastpn-zuul,vastpn-config,vastpn-order,vastpn-user #收集监控信息的服务名
   combine-host-port: true
   cluster-name-expression: new String('default') #集群名称
 
@@ -17,7 +17,7 @@ spring:
   boot:
     admin:
       turbine:
-        location: monitor
+        location: vastpn-admin
       routes:
         endpoints: env,metrics,trace,dump,jolokia,info,configprops,trace,logfile,refresh,flyway,heapdump,loggers,auditevents,hystrix.stream,turbine.stream
 #  profiles:
