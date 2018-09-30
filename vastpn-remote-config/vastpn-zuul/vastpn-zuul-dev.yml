@@ -20,7 +20,11 @@ zuul:
       serviceId: vastpn-order
       # 当前版本默认为true，访问时必须加服务名称前缀；false时不需要填写服务名称
       stripPrefix: false
-    vastpn-user:
+#    vastpn-user:
+#      path: /user/**
+#      serviceId: vastpn-user
+#      stripPrefix: false
+    ulin:
       path: /user/**
-      serviceId: vastpn-user
+      serviceId: ulin
       stripPrefix: false
