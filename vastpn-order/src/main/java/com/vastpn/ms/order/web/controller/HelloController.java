@@ -1,5 +1,7 @@
 package com.vastpn.ms.order.web.controller;
 
+import com.vastpn.ms.order.web.config.LocaleMessageSourceService;
+import com.vastpn.ms.order.web.vo.DemoBean;
 import com.vastpn.ms.order.web.vo.HelloVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -9,6 +11,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -33,6 +37,9 @@ import java.util.Map;
 @RequestMapping(value = "/order/t1",produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 public class HelloController {
 
+    @Resource
+    private LocaleMessageSourceService localeMessageSourceService;
+
     @Value("${info.test}")
     private String infoTest;
 
@@ -49,11 +56,23 @@ public class HelloController {
     @ApiOperation(value = "通讯测试", httpMethod = "GET", notes = "通讯测试")
     @RequestMapping(value = "/sayHello",method = RequestMethod.GET)
     public Object sayHello(){
-        Map<String,Object> result =new HashMap();
-        result.put("context","无参API");
-        result.put("time",new Date().getTime());
-        result.put("remoteValue",infoTest);
-        return result;
+        DemoBean demoBean = new DemoBean();
+        demoBean.setBigDecimal(new BigDecimal("22222222222.33333333333333333333359"));
+        Map temp =new HashMap();
+        temp.put("mapBigDecimal",new BigDecimal("44444444444444444444444444.5555555555555555555555788888000002"));
+        demoBean.setaMap(temp);
+        return demoBean;
+
+//        Map<String,Object> result =new HashMap();
+//
+//        BigDecimal bigDecimal = new BigDecimal(11111111111111.111111111111111112);
+//        result.put("aFields",null);
+//        result.put("context","无参API");
+//        result.put("bigDecimal",bigDecimal);
+//        result.put("time",new Date().getTime());
+//        result.put("remoteValue",infoTest);
+//        result.put("user.password",localeMessageSourceService.getMessage("user.password"));
+//        return result;
     }
 
     /**

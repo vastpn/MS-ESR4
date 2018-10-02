@@ -2,11 +2,13 @@ package com.vastpn.ms.order;
 
 import io.undertow.UndertowOptions;
 import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.embedded.undertow.UndertowEmbeddedServletContainerFactory;
 import org.springframework.cloud.client.SpringCloudApplication;
-import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.context.annotation.Bean;
+import org.springframework.web.servlet.LocaleResolver;
+import org.springframework.web.servlet.i18n.CookieLocaleResolver;
+
+import java.util.Locale;
 
 /**
  * <pre>
@@ -51,4 +53,14 @@ public class OrderApplication {
 
         return factory;
     }
+
+    @Bean
+    public LocaleResolver localeResolver() {
+        CookieLocaleResolver localeResolver = new CookieLocaleResolver();
+        localeResolver.setCookieName("lang");
+        localeResolver.setCookieMaxAge(Integer.MAX_VALUE);
+        localeResolver.setDefaultLocale(Locale.US);
+        return localeResolver;
+    }
+
 }

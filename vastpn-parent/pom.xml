@@ -30,7 +30,7 @@
 
         <spring-boot.version>1.5.13.RELEASE</spring-boot.version>
         <spring-cloud.version>Edgware.SR4</spring-cloud.version>
-        <fastjson.version>1.2.47</fastjson.version>
+        <fastjson.version>1.2.49</fastjson.version>
         <springfox-swagger2.version>2.7.0</springfox-swagger2.version>
         <springfox-swagger-ui.version>2.7.0</springfox-swagger-ui.version>
         <swagger-spring-boot-starter.version>1.1.1-SNAPSHOT</swagger-spring-boot-starter.version>

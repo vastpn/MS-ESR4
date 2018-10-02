@@ -27,6 +27,9 @@ spring:
         max-attempts: 6
         max-interval: 3000
         multiplier: 1.1
+  messages:
+    encoding: UTF-8
+    basename: i18n/messages
 # Feign开启降级服务；启动类无需hystrix注解；写降级类组件，实现feign业务接口即可
 feign:
   httpclient:
