@@ -29,8 +29,6 @@ import org.springframework.cloud.netflix.eureka.server.EnableEurekaServer;
 @SpringBootApplication
 public class EurekaApplication {
 
-    private final static Logger logger =  LogManager.getLogger(EurekaApplication.class);
-
     public static void main(String[] args) {
         log.info("注册中心启动开始");
         SpringApplication.run(EurekaApplication.class, args);

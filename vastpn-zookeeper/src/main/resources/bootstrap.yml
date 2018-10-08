@@ -1,0 +1,5 @@
+spring:
+  application:
+    name: vastpn-zookeeper # 所有服务在注册中心自动转换为大写
+  profiles:
+    active: dev

@@ -137,6 +137,13 @@
             <artifactId>swagger-spring-boot-starter</artifactId>
             <version>${swagger-spring-boot-starter.version}</version>
         </dependency>
+
+        <!-- 热部署模块 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
+            <optional>true</optional> <!-- 这个需要为 true 热部署才有效 -->
+        </dependency>
     </dependencies>
 
     <!-- 项目打包 deploy 到私有仓库配置-->
@@ -180,6 +187,9 @@
                     <groupId>org.springframework.boot</groupId>
                     <artifactId>spring-boot-maven-plugin</artifactId>
                     <version>${spring-boot.version}</version>
+                    <configuration>
+                        <fork>true</fork>
+                    </configuration>
                     <executions>
                         <execution>
                             <goals>

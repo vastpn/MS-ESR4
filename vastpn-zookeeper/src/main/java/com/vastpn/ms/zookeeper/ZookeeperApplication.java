@@ -1,9 +1,7 @@
-package com.vastpn.ms.configserver;
+package com.vastpn.ms.zookeeper;
 
-import lombok.extern.log4j.Log4j2;
 import org.springframework.boot.SpringApplication;
 import org.springframework.cloud.client.SpringCloudApplication;
-import org.springframework.cloud.config.server.EnableConfigServer;
 
 /**
  * <pre>
@@ -11,22 +9,19 @@ import org.springframework.cloud.config.server.EnableConfigServer;
  * <b>Description:</b>
  *
  * <b>Author: 641597345@qq.com </b>
- * <b>Date: 2018/9/18 0018 10:04   </b>
+ * <b>Date: 2018/10/2 0002 20:22   </b>
  * <b>Copyright:</b> Copyright 2008-2026 http://www.jinvovo.com Technology Co., Ltd. All rights reserved.
  * <b>Changelog:</b>
  *   ----------------------------------------------------------------------------
  *   Ver    Date                     Author                        Detail
  *   ----------------------------------------------------------------------------
- *   1.0   2018/9/18 0018 10:04          641597345@qq.com            new file.
+ *   1.0   2018/10/2 0002 20:22          641597345@qq.com            new file.
  * <pre>
  */
-@Log4j2
-@EnableConfigServer
+
 @SpringCloudApplication
-public class ConfigServerApplication {
+public class ZookeeperApplication {
     public static void main(String[] args) {
-        log.info("配置中心启动开始");
-        SpringApplication.run(ConfigServerApplication.class, args);
-        log.info("配置中心启动成功");
+        SpringApplication.run(ZookeeperApplication.class,args);
     }
 }
