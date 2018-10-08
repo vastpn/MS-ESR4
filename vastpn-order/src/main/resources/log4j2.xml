@@ -3,7 +3,7 @@
      你会看到log4j2内部各种详细输出。可以设置成OFF(关闭) 或 Error(只输出错误信息)。
      30s 刷新此配置
 -->
-<configuration monitorInterval="30">
+<configuration status="ERROR" monitorInterval="30">
 
     <!-- 日志文件目录、压缩文件目录、日志格式配置 -->
     <properties>
@@ -64,6 +64,9 @@
 
     <!-- Mixed sync/async -->
     <Loggers>
+        <!--过滤掉spring和mybatis的一些无用的DEBUG信息-->
+
+
         <Root level="info" includeLocation="true">
             <AppenderRef ref="console"/>
             <AppenderRef ref="infoFile"/>

@@ -7,10 +7,10 @@
 
     <!-- 日志文件目录、压缩文件目录、日志格式配置 -->
     <properties>
-        <Property name="fileName">./logs/eureka</Property>
-        <Property name="fileGz">./logs/eureka/7z</Property>
-        <Property name="infoFile">eureka.log</Property>
-        <Property name="errorFile">eurekaError.log</Property>
+        <Property name="fileName">./logs/vastpn-eureka</Property>
+        <Property name="fileGz">./logs/vastpn-eureka/7z</Property>
+        <Property name="infoFile">vastpn-eureka.log</Property>
+        <Property name="errorFile">vastpn-eurekaError.log</Property>
         <Property name="PID">????</Property>
         <Property name="LOG_PATTERN">%clr{%d{yyyy-MM-dd HH:mm:ss.SSS}}{faint} %clr{%5p} %clr{${sys:PID}}{magenta} %clr{---}{faint} %clr{[%15.15t]}{faint} %clr{%-40.40c{1.}}{cyan} %clr{:}{faint} %m%n%xwEx</Property>
     </properties>
