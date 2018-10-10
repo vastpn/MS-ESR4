@@ -6,8 +6,8 @@ eureka:
     lease-renewal-interval-in-seconds: 10
     lease-expiration-duration-in-seconds: 60
     metadata-map:
-        user.name: ${security.user.name}
-        user.password: ${security.user.password}
+      user.name: ${security.user.name}
+      user.password: ${security.user.password}
   client:
     serviceUrl:
       defaultZone: http://bu-admin:123456@localhost:9999/eureka/
@@ -41,11 +41,14 @@ spring:
         metadata:
           user.name: ${security.user.name}
           user.password: ${security.user.password}
+#################################################
+# Feign配置
 # Feign开启降级服务；启动类无需hystrix注解；写降级类组件，实现feign业务接口即可
+#################################################
 feign:
   httpclient:
     enabled: false
-    connection-timeout: 1000
+    connection-timeout: 6000
     max-connections: 500
     max-connections-per-route: 100
   okhttp:
@@ -68,6 +71,10 @@ feign:
 # Feign+Ribbon 超时设置，默认已启用客户端负载ribbon;设置ribbon超时时间有效，其他配置无效
 # timeoutInMilliseconds > (ribbonReadTimeout + ribbonConnectTimeout) * (maxAutoRetries + 1) * (maxAutoRetriesNextServer + 1);
 #################################################
+ribbon:
+  ReadTimeout: 6000
+  ConnectTimeout: 6000
+
 hystrix:
   command:
     default:
@@ -107,6 +114,12 @@ security:
   user:
     name: bu-admin
     password: 123456
+  basic:
+    enabled: true
+
+management:
+  security:
+    enabled: true
 
 logging:
   path: ./logs/vastpn-order

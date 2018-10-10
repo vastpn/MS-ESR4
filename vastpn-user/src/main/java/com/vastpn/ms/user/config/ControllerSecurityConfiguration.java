@@ -1,4 +1,4 @@
-package com.vastpn.ms.order.web.config;
+package com.vastpn.ms.user.config;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;

@@ -5,9 +5,13 @@ eureka:
   instance:
     lease-renewal-interval-in-seconds: 10
     lease-expiration-duration-in-seconds: 60
+    metadata-map:
+      user.name: ${security.user.name}
+      user.password: ${security.user.password}
   client:
     serviceUrl:
       defaultZone: http://bu-admin:123456@localhost:9999/eureka/
+
 #################################################
 # 项目基础配置、远程配置中心
 #################################################
@@ -27,6 +31,18 @@ spring:
         max-attempts: 6
         max-interval: 3000
         multiplier: 1.1
+      username: ${security.user.name}
+      password: ${security.user.password}
+  messages:
+    encoding: UTF-8
+    basename: i18n/messages
+  boot:
+    admin:
+      client:
+        metadata:
+          user.name: ${security.user.name}
+          user.password: ${security.user.password}
+
 #################################################
 # Feign配置
 # Feign开启降级服务；启动类无需hystrix注解；写降级类组件，实现feign业务接口即可
@@ -88,3 +104,22 @@ server:
     buffer-size: 512
     #【Http最大请求数量】
     max-http-post-size: 5000
+
+endpoints:
+  logfile:
+    enabled: true
+  shutdown:
+    enabled: true
+security:
+  user:
+    name: bu-admin
+    password: 123456
+  basic:
+    enabled: true
+
+management:
+  security:
+    enabled: true
+
+logging:
+  path: ./logs/vastpn-user
