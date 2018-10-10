@@ -56,7 +56,7 @@ public class ControllerSecurityConfiguration extends WebSecurityConfigurerAdapte
                 .authorizeRequests() //Authorize Request Configuration
                 .antMatchers( "/login",
                         "/api/**",
-                        "/user/**",
+                        "/order/**",
                         "/**/heapdump",
                         "/**/loggers",
                         "/**/liquibase",
