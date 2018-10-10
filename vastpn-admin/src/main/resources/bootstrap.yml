@@ -75,11 +75,6 @@ endpoints:
     enabled: true #启用shutdown
     sensitive: true #禁用密码验证
 
-info:
-  artifact : ${spring.application.name}
-  name: ${spring.application.name}
-  description: ${spring.application.name}
-  version : ${spring.application.name}
 #################################################
 # Feign配置
 # Feign开启降级服务；启动类无需hystrix注解；写降级类组件，实现feign业务接口即可

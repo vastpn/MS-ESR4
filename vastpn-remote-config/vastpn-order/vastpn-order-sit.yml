@@ -6,9 +6,6 @@ management:
     enabled: false
 server:
   port: 9994
-  
-info:
- test: Remote-Config-Ref-Success
 
 spring:
   boot:

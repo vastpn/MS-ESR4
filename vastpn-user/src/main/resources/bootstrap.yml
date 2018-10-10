@@ -120,6 +120,5 @@ security:
 management:
   security:
     enabled: true
-
 logging:
   path: ./logs/vastpn-user

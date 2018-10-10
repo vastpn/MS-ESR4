@@ -121,5 +121,6 @@ management:
   security:
     enabled: true
 
+
 logging:
-  path: ./logs/vastpn-order
+  file: ./logs/${spring.application.name}/${spring.application.name}.log
