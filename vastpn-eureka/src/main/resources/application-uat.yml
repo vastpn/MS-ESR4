@@ -4,13 +4,9 @@
 server:
   port: 9999
 
-security:
-  user:
-    name: bu-admin
-    password: 123456
-  basic:
-    enabled: true
-
+#################################################
+# 注册服务中心配置
+#################################################
 eureka:
   instance:
     hostname: ${spring.application.name}

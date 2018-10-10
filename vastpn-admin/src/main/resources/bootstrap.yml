@@ -12,6 +12,9 @@ eureka:
   instance:
     lease-renewal-interval-in-seconds: 10
     lease-expiration-duration-in-seconds: 60
+    metadata-map:
+      user.name: ${security.user.name}
+      user.password: ${security.user.password}
   client:
     serviceUrl:
       defaultZone: http://bu-admin:123456@localhost:9999/eureka/
@@ -27,6 +30,12 @@ spring:
         location: vastpn-admin
       routes:
         endpoints: env,metrics,trace,dump,jolokia,info,configprops,trace,logfile,refresh,flyway,heapdump,loggers,auditevents,hystrix.stream,turbine.stream
+      username: ${security.user.name}
+      password: ${security.user.password}
+      client:
+        metadata:
+          user.name: ${security.user.name}
+          user.password: ${security.user.password}
   cloud:
     config:
       enabled: true
@@ -40,6 +49,37 @@ spring:
         max-attempts: 6
         max-interval: 3000
         multiplier: 1.1
+#配置中心认证账户信息
+      username: bu-admin
+      password: 123456
+#当前微服务认证账户信息
+security:
+  user:
+    name: bu-admin
+    password: 123456
+#关掉SBA security框架自带的登陆弹出框
+  basic:
+    enabled: false
+
+management:
+  security:
+    enabled: false
+    roles: SUPERUSER
+
+endpoints:
+  health:
+    sensitive: true
+  cors:
+    allowed-methods: HEAD,GET,POST
+  shutdown:
+    enabled: true #启用shutdown
+    sensitive: true #禁用密码验证
+
+info:
+  artifact : ${spring.application.name}
+  name: ${spring.application.name}
+  description: ${spring.application.name}
+  version : ${spring.application.name}
 #################################################
 # Feign配置
 # Feign开启降级服务；启动类无需hystrix注解；写降级类组件，实现feign业务接口即可

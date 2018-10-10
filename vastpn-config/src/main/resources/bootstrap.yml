@@ -15,6 +15,16 @@ server:
     #【Http最大请求数量】
     max-http-post-size: 5000
 
+#################################################
+# 安全配置
+#################################################
+security:
+  user:
+    name: bu-admin
+    password: 123456
+  basic:
+    enabled: true
+
 #开启动态刷新
 #management:
 #  endpoints:
@@ -30,6 +40,9 @@ eureka:
     prefer-ip-address: true
     lease-renewal-interval-in-seconds: 10
     lease-expiration-duration-in-seconds: 60
+    metadata-map:
+      user.name: ${security.user.name}
+      user.password: ${security.user.password}
   client:
     serviceUrl:
       defaultZone: http://bu-admin:123456@localhost:9999/eureka/
@@ -48,7 +61,12 @@ spring:
           search-paths: /vastpn-remote-config/**
           username: vastpn
           password: Jiangccvastpn0128
-
+  boot:
+    admin:
+      client:
+        metadata:
+          user.name: ${security.user.name}
+          user.password: ${security.user.password}
 
 
 ###########################################SVN###########################################

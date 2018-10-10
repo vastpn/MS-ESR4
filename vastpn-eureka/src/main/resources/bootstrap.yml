@@ -1,9 +1,21 @@
+##########################################
+# 微服务基础配置
+##########################################
 spring:
   application:
     name: vastpn-eureka # 所有服务在注册中心自动转换为大写
   profiles:
     active: dev
+  boot:
+    admin:
+      client:
+        metadata:
+          user.name: ${security.user.name}
+          user.password: ${security.user.password}
 
+##########################################
+# undertow 容器配置
+##########################################
 server:
   undertow:
     #【I/O线程数】CPU 数量;它主要执行非阻塞的任务,它们会负责多个连接, 默认设置每个CPU核心为一个线程.不要设置过大，如果过大，启动项目会报错：打开文件数过多
@@ -16,3 +28,25 @@ server:
     buffer-size: 512
     #【Http最大请求数量】
     max-http-post-size: 5000
+
+##########################################
+# 注册服务中心安全配置、Actuator 安全端点
+# 1、在 “spring-boot-starter-actuator” 依赖项目中，增加 “spring-boot-starter-security”依赖；
+# 2、可设置管理端口 ：management.port=
+# 3、必须开启才有效：management.security.enabled=true
+# 4、配合安全账户使用：
+#    security.user.name=
+#    security.user.password=
+##########################################
+management:
+  security:
+    enabled: true
+security:
+  user:
+    name: bu-admin
+    password: 123456
+  basic:
+    enabled: true
+endpoints:
+  enabled: false
+
