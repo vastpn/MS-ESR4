@@ -51,8 +51,8 @@ feign:
   httpclient:
     enabled: false
     connection-timeout: 6000
-    max-connections: 500
-    max-connections-per-route: 100
+    max-connections: 1000
+    max-connections-per-route: 250
   okhttp:
     enabled: true
   hystrix:
