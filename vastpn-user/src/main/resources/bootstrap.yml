@@ -120,5 +120,7 @@ security:
 management:
   security:
     enabled: true
+
 logging:
-  path: ./logs/vastpn-user
+  file: ./logs/${spring.application.name}/${spring.application.name}.log
+  pattern:

@@ -7,6 +7,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -32,7 +33,9 @@ import java.util.Map;
  *   1.0   2018/9/18 0018 09:20          641597345@qq.com            new file.
  * <pre>
  */
+
 @Api(value = "HelloController", tags = "OrderTest")
+@Log4j2
 @RestController
 @RequestMapping(value = "/order/t1",produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 public class HelloController {
@@ -40,7 +43,7 @@ public class HelloController {
     @Resource
     private LocaleMessageSourceService localeMessageSourceService;
 
-    @Value("${info.test}")
+    @Value("${server.port}")
     private String infoTest;
 
     /**
@@ -62,17 +65,6 @@ public class HelloController {
         temp.put("mapBigDecimal",new BigDecimal("44444444444444444444444444.5555555555555555555555788888000002"));
         demoBean.setaMap(temp);
         return demoBean;
-
-//        Map<String,Object> result =new HashMap();
-//
-//        BigDecimal bigDecimal = new BigDecimal(11111111111111.111111111111111112);
-//        result.put("aFields",null);
-//        result.put("context","无参API");
-//        result.put("bigDecimal",bigDecimal);
-//        result.put("time",new Date().getTime());
-//        result.put("remoteValue",infoTest);
-//        result.put("user.password",localeMessageSourceService.getMessage("user.password"));
-//        return result;
     }
 
     /**

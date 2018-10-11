@@ -5,6 +5,9 @@ eureka:
   instance:
     lease-renewal-interval-in-seconds: 10
     lease-expiration-duration-in-seconds: 60
+    metadata-map:
+      user.name: ${security.user.name}
+      user.password: ${security.user.password}
   client:
     serviceUrl:
       defaultZone: http://bu-admin:123456@localhost:9999/eureka/
@@ -28,6 +31,14 @@ spring:
         max-attempts: 6
         max-interval: 3000
         multiplier: 1.1
+      username: ${security.user.name}
+      password: ${security.user.password}
+  boot:
+    admin:
+      client:
+        metadata:
+          user.name: ${security.user.name}
+          user.password: ${security.user.password}
 #################################################
 # 线程池模式配置
 #################################################
@@ -85,3 +96,14 @@ server:
     buffer-size: 512
     #【Http最大请求数量】
     max-http-post-size: 5000
+
+security:
+  user:
+    name: bu-admin
+    password: 123456
+  basic:
+    enabled: false
+
+management:
+  security:
+    enabled: true
