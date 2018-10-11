@@ -4,19 +4,27 @@
      30s 刷新此配置
 -->
 <configuration status="ERROR" monitorInterval="30">
-
-    <!-- 日志文件目录、压缩文件目录、日志格式配置 -->
     <properties>
-        <Property name="fileName">./logs/vastpn-config</Property>
-        <Property name="fileGz">./logs/vastpn-config/7z</Property>
-        <Property name="infoFile">vastpn-config.log</Property>
-        <Property name="errorFile">vastpn-configError.log</Property>
-        <Property name="PID">????</Property>
-        <Property name="LOG_PATTERN">%clr{%d{yyyy-MM-dd HH:mm:ss.SSS}}{faint} %clr{%5p} %clr{${sys:PID}}{magenta} %clr{---}{faint} %clr{[%15.15t]}{faint} %clr{%-40.40c{1.}}{cyan} %clr{:}{faint} %m%n%xwEx</Property>
+        <!-- 指定项目名称 -->
+        <property name="applicationName">vastpn-config</property>
+        <!-- 指定日志文件目录 -->
+        <Property name="fileName">./logs/${applicationName}</Property>
+        <!-- 指定日志压缩文件目录 -->
+        <Property name="fileGz">./logs/${applicationName}/7z</Property>
+        <!-- 指定Info日志文件名称 -->
+        <Property name="infoFile">${applicationName}.log</Property>
+        <!-- 指定Error日志文件名称 -->
+        <Property name="errorFile">${applicationName}Error.log</Property>
+        <!-- 限制日志输出内容格式 -->
+        <Property name="LOG_PATTERN">%d{yyyy-MM-dd HH:mm:ss.SSS} %5p %t   [%C{2}.%M(%L)]|      %m%n</Property>
+        <!-- 限制单个文件大小 -->
+        <Property name="sizeBasedTriggeringPolicy">300 MB</Property>
+        <!-- 限制每天的最大压缩包个数，默认7个；超过了会覆盖之前的压缩文件 -->
+        <Property name="defaultRolloverStrategySize">30</Property>
     </properties>
 
     <Appenders>
-        <!-- 输出控制台日志的配置 -->
+        <!-- 输出控制台日志 -->
         <Console name="console" target="SYSTEM_OUT">
             <!--控制台只输出level及以上级别的信息（onMatch），其他的直接拒绝（onMismatch）-->
             <ThresholdFilter level="info" onMatch="ACCEPT" onMismatch="DENY"/>
@@ -24,55 +32,50 @@
             <PatternLayout pattern="${LOG_PATTERN}"/>
         </Console>
 
-        <!-- 打印出所有的信息，每次大小超过size，则这size大小的日志会自动存入按年份-月份建立的文件夹下面并进行压缩，作为存档 -->
+        <!-- 记录所有Info信息；超过指定文件大小，自动压缩；压缩文件数量超过，按日期升序自动覆盖 -->
         <RollingRandomAccessFile name="infoFile" fileName="${fileName}/${infoFile}" immediateFlush="false"
-                                 filePattern="${fileGz}/$${date:yyyy-MM}/%d{yyyy-MM-dd}-%i.${infoFile}.gz">
+                                 filePattern="${fileName}/info/$${date:yyyy-MM}/%d{yyyy-MM-dd}-%i.${infoFile}.gz">
             <PatternLayout pattern="${LOG_PATTERN}"/>
-
             <Policies>
-                <SizeBasedTriggeringPolicy size="100 MB"/>
+                <!-- 限制单个文件大小 -->
+                <SizeBasedTriggeringPolicy size="${sizeBasedTriggeringPolicy}"/>
             </Policies>
-
             <Filters>
                 <!-- 只记录info和warn级别信息 -->
                 <ThresholdFilter level="error" onMatch="DENY" onMismatch="NEUTRAL"/>
                 <ThresholdFilter level="info" onMatch="ACCEPT" onMismatch="DENY"/>
             </Filters>
-
             <!-- 指定每天的最大压缩包个数，默认7个，超过了会覆盖之前的 -->
-            <DefaultRolloverStrategy max="50"/>
+            <DefaultRolloverStrategy max="${defaultRolloverStrategySize}"/>
         </RollingRandomAccessFile>
 
-        <!-- 存储所有error信息 -->
+        <!-- 记录所有error信息；超过指定文件大小，自动压缩；压缩文件数量超过，按日期升序自动覆盖 -->
         <RollingRandomAccessFile name="errorFile" fileName="${fileName}/${errorFile}" immediateFlush="false"
-                                 filePattern="${fileGz}/$${date:yyyy-MM}/%d{yyyy-MM-dd}-%i.${errorFile}.gz">
+                                 filePattern="${fileName}/error/$${date:yyyy-MM}/%d{yyyy-MM-dd}-%i.${errorFile}.gz">
             <PatternLayout pattern="${LOG_PATTERN}"/>
-
             <Policies>
-                <SizeBasedTriggeringPolicy size="200 MB"/>
+                <!-- 限制单个文件大小 -->
+                <SizeBasedTriggeringPolicy size="${sizeBasedTriggeringPolicy}"/>
             </Policies>
-
             <Filters>
                 <!-- 只记录error级别信息 -->
                 <ThresholdFilter level="error" onMatch="ACCEPT" onMismatch="DENY"/>
             </Filters>
-
             <!-- 指定每天的最大压缩包个数，默认7个，超过了会覆盖之前的 -->
-            <DefaultRolloverStrategy max="50"/>
+            <DefaultRolloverStrategy max="${defaultRolloverStrategySize}"/>
         </RollingRandomAccessFile>
     </Appenders>
 
     <!-- Mixed sync/async -->
     <Loggers>
         <!--过滤掉spring和mybatis的一些无用的DEBUG信息-->
+        <!--<Root level="info" includeLocation="true">-->
+            <!--<AppenderRef ref="console"/>-->
+            <!--<AppenderRef ref="infoFile"/>-->
+            <!--<AppenderRef ref="errorFile"/>-->
+        <!--</Root>-->
 
-
-        <Root level="info" includeLocation="true">
-            <AppenderRef ref="console"/>
-            <AppenderRef ref="infoFile"/>
-            <AppenderRef ref="errorFile"/>
-        </Root>
-
+        <!--异步日志记录-->
         <AsyncRoot level="info" includeLocation="true">
             <AppenderRef ref="console"/>
             <AppenderRef ref="infoFile"/>
