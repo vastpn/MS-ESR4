@@ -1,6 +1,7 @@
 package com.vastpn.ms.user.web;
 
 import com.vastpn.ms.order.web.vo.HelloVO;
+import com.vastpn.ms.user.feign.email.VastpnEmailFeign;
 import com.vastpn.ms.user.feign.order.VastpnOrderFeign;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -10,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -36,7 +36,17 @@ public class FeignOrderController {
 
     @Autowired
     private VastpnOrderFeign vastpnOrderFeign;
+    @Autowired
+    private VastpnEmailFeign vastpnEmailFeign;
 
+    @ApiOperation(value = "心跳", httpMethod = "GET", notes = "心跳")
+    @RequestMapping(value = "/health",method = RequestMethod.GET)
+    public Object health(){
+        Map result =new HashMap<>();
+        result.put("health","OK");
+
+        return result;
+    }
     /**
      * <pre>
      * <b>无参数API.</b>
@@ -50,7 +60,8 @@ public class FeignOrderController {
     @ApiOperation(value = "通讯测试", httpMethod = "GET", notes = "通讯测试")
     @RequestMapping(value = "/sayHello",method = RequestMethod.GET)
     public Object sayHello(){
-        return this.vastpnOrderFeign.sayHello();
+        return this.vastpnEmailFeign.send();
+//        return this.vastpnOrderFeign.sayHello();
     }
 
     /**
