@@ -24,7 +24,6 @@ security:
     password: 123456
   basic:
     enabled: true
-
 #开启动态刷新
 #management:
 #  endpoints:
@@ -68,7 +67,16 @@ spring:
           user.name: ${security.user.name}
           user.password: ${security.user.password}
 
-
+management:
+  security:
+    enabled: true # actuator 安全启用状态
+endpoints:
+  health:
+    enabled: true
+    sensitive: false
+    time-to-live: 10000
+logging:
+  file: ./logs/${spring.application.name}/${spring.application.name}.log
 ###########################################SVN###########################################
 #spring:
 #  http:

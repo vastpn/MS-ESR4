@@ -105,11 +105,6 @@ server:
     #【Http最大请求数量】
     max-http-post-size: 5000
 
-endpoints:
-  logfile:
-    enabled: true
-  shutdown:
-    enabled: true
 security:
   user:
     name: bu-admin
@@ -119,7 +114,11 @@ security:
 
 management:
   security:
+    enabled: true # actuator 安全启用状态
+endpoints:
+  health:
     enabled: true
-
+    sensitive: false
+    time-to-live: 10000
 logging:
   file: ./logs/${spring.application.name}/${spring.application.name}.log

@@ -107,3 +107,6 @@ security:
 management:
   security:
     enabled: true
+endpoints:
+  health:
+    enabled: true

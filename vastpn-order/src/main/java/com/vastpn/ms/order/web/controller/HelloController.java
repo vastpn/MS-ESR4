@@ -59,11 +59,14 @@ public class HelloController {
     @ApiOperation(value = "通讯测试", httpMethod = "GET", notes = "通讯测试")
     @RequestMapping(value = "/sayHello",method = RequestMethod.GET)
     public Object sayHello(){
+
         DemoBean demoBean = new DemoBean();
         demoBean.setBigDecimal(new BigDecimal("22222222222.33333333333333333333359"));
         Map temp =new HashMap();
         temp.put("mapBigDecimal",new BigDecimal("44444444444444444444444444.5555555555555555555555788888000002"));
         demoBean.setaMap(temp);
+        log.info("sayHello(),result:{}",demoBean);
+        log.error("sayHello(), print error logs");
         return demoBean;
     }
 
