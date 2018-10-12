@@ -1,15 +1,8 @@
 package com.vastpn.ms.order;
 
-import io.undertow.UndertowOptions;
 import org.springframework.boot.SpringApplication;
-import org.springframework.boot.context.embedded.undertow.UndertowEmbeddedServletContainerFactory;
 import org.springframework.cloud.client.SpringCloudApplication;
 import org.springframework.cloud.netflix.feign.EnableFeignClients;
-import org.springframework.context.annotation.Bean;
-import org.springframework.web.servlet.LocaleResolver;
-import org.springframework.web.servlet.i18n.CookieLocaleResolver;
-
-import java.util.Locale;
 
 /**
  * <pre>
