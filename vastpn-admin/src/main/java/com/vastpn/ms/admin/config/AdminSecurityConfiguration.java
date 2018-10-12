@@ -28,7 +28,7 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(securedEnabled = true, prePostEnabled = true, proxyTargetClass = true)
-public class AdminSecurityConfiguration extends WebSecurityConfigurerAdapter {
+public class    AdminSecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Value("${security.user.name}")
     private String username;
     @Value("${security.user.password}")
@@ -46,36 +46,24 @@ public class AdminSecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         InMemoryUserDetailsManager inMemoryUserDetailsManager = new InMemoryUserDetailsManager();
         inMemoryUserDetailsManager.createUser(User.withUsername(username).password(password).roles(SECURITY_ROLE_ACTUATOR,SECURITY_ROLE_ADMIN).build());
-        http
-                .csrf().disable() //HTTP with Disable CSRF
-                .authorizeRequests() //Authorize Request Configuration
-                .antMatchers( "/login",
-                        "/api/**",
-                        "/**/heapdump",
-                        "/**/loggers",
-                        "/**/liquibase",
-                        "/**/logfile",
-                        "/**/flyway",
-                        "/**/auditevents",
-                        "/**/jolokia").permitAll() //放开"/api/**"：为了给被监控端免登录注册并解决Log与Logger冲突
+
+        // Page with login form is served as /login.html and does a POST on /login
+        http.formLogin().loginPage("/login.html").loginProcessingUrl("/login").permitAll();
+        // The UI does a POST on /logout on logout
+        http.logout().logoutUrl("/logout");
+        // The ui currently doesn't support csrf
+        http.csrf().disable();
+
+        // Requests for the login page and the static assets are allowed
+        http.authorizeRequests()
+                .antMatchers("/login.html", "//*.css", "/img/", "/third-party/")
+                .permitAll();
+        // ... and any other request needs to be authorized
+        http.authorizeRequests().antMatchers("/**").hasRole(SECURITY_ROLE_ACTUATOR);
+
+        // Enable so that the clients can authenticate via HTTP basic for registering
+        http.httpBasic()
                 .and()
-                .authorizeRequests()
-//                .antMatchers("/**").hasRole("USER")
-//                .antMatchers("/**").hasRole("SUPERUSER")
-                .antMatchers("/**").hasRole(SECURITY_ROLE_ACTUATOR)
-                .antMatchers("/**/**").authenticated()
-                .and() //Login Form configuration for all others
-                .formLogin()
-                .loginPage("/login.html")
-                .loginProcessingUrl("/login").permitAll()
-                .defaultSuccessUrl("/")
-                .and() //Logout Form configuration
-                .logout()
-                .deleteCookies("remove")
-                .logoutSuccessUrl("/login.html").permitAll()
-                .and()
-                .httpBasic()
-                .and()
-                .userDetailsService(inMemoryUserDetailsManager);
+        .userDetailsService(inMemoryUserDetailsManager);
     }
 }

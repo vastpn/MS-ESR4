@@ -2,10 +2,12 @@
 # 集群监控配置
 #################################################
 turbine:
+  aggregator:
+    cluster-config: default
   #收集监控信息的服务名
-  app-config: vastpn-zuul,vastpn-order,vastpn-user
+  app-config: vastpn-zuul,vastpn-order,vastpn-user,vastpn-email
   combine-host-port: true
-  cluster-name-expression: new String('MS-ESR4') #集群名称
+  cluster-name-expression: new String("default")
 #################################################
 # 注册中心配置
 #################################################
@@ -23,15 +25,26 @@ eureka:
 #################################################
 # 项目基础配置、远程配置中心、监控配置
 #################################################
+#turbine:
+#
+#  app-config: vastpn-order,vastpn-user,vastpn-email #配置监控服务的列表，表明监控哪些服务多个使用","分割
+#  aggregator:
+#    cluster-config: vastpn-order,vastpn-user,vastpn-email #指定聚合哪些集群,多个使用","分割，默认为
+#  combine-host-port: true
+#  cluster-name-expression: new String("default")
+
 spring:
   application:
     name: vastpn-admin
   boot:
     admin:
       turbine:
-        location: vastpn-admin
+        location: ${spring.application.name}
+        enabled: true
+        clusters: default
       routes:
-        endpoints: env,metrics,trace,dump,jolokia,info,configprops,trace,logfile,refresh,heapdump,loggers,auditevents,hystrix.stream,turbine.stream
+        endpoints: env,metrics,trace,dump,jolokia,info,configprops,trace,logfile,refresh,flyway,liquibase,heapdump,activiti,hystrix.stream,turbine.stream
+      #        endpoints: env,metrics,trace,dump,jolokia,info,configprops,trace,logfile,refresh,heapdump,loggers,liquibase,auditevents,activiti,hystrix.stream,turbine.stream
       username: ${security.user.name}
       password: ${security.user.password}
       client:

@@ -133,6 +133,7 @@
     <orderEntry type="library" name="Maven: de.codecentric:spring-boot-admin-server-ui-login:1.5.7" level="project" />
     <orderEntry type="library" name="Maven: de.codecentric:spring-boot-admin-server-ui-hystrix:1.5.7" level="project" />
     <orderEntry type="library" name="Maven: de.codecentric:spring-boot-admin-server-ui-turbine:1.5.7" level="project" />
+    <orderEntry type="library" name="Maven: de.codecentric:spring-boot-admin-server-ui-activiti:1.5.7" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-starter:1.5.13.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot:1.5.13.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-context:4.3.17.RELEASE" level="project" />

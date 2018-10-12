@@ -21,7 +21,7 @@ spring:
   cloud:
     config:
       enabled: true
-      profile: dev
+      profile: sit
       discovery:
         enabled: true
         service-id: vastpn-config
