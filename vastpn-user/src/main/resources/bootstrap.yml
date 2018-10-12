@@ -123,4 +123,3 @@ management:
 
 logging:
   file: ./logs/${spring.application.name}/${spring.application.name}.log
-  pattern:

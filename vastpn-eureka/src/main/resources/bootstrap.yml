@@ -41,6 +41,9 @@ server:
 management:
   security:
     enabled: true
+  health:
+    defaults:
+      enabled: true
 security:
   user:
     name: bu-admin
@@ -49,4 +52,3 @@ security:
     enabled: true
 endpoints:
   enabled: false
-

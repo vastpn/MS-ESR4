@@ -3,6 +3,7 @@ package com.vastpn.ms.admin;
 import de.codecentric.boot.admin.config.EnableAdminServer;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.cloud.client.SpringCloudApplication;
 import org.springframework.cloud.netflix.hystrix.dashboard.EnableHystrixDashboard;
 import org.springframework.cloud.netflix.turbine.EnableTurbine;
@@ -27,6 +28,7 @@ import org.springframework.context.annotation.Configuration;
 @EnableTurbine
 @EnableAdminServer
 @EnableHystrixDashboard
+@EnableAutoConfiguration
 @SpringCloudApplication
 public class AdminApplication {
     public static void main(String[] args) {

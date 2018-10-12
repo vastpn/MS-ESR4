@@ -1,11 +1,14 @@
 package com.vastpn.ms.admin.config;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 
 /**
  * <pre>
@@ -26,7 +29,13 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(securedEnabled = true, prePostEnabled = true, proxyTargetClass = true)
 public class AdminSecurityConfiguration extends WebSecurityConfigurerAdapter {
+    @Value("${security.user.name}")
+    private String username;
+    @Value("${security.user.password}")
+    private String password;
 
+    private final static String SECURITY_ROLE_ACTUATOR ="ACTUATOR";
+    private final static String SECURITY_ROLE_ADMIN ="ADMIN";
     @Override
     public void configure(WebSecurity web) throws Exception {
         //忽略css.jq.img等文件
@@ -35,7 +44,8 @@ public class AdminSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-
+        InMemoryUserDetailsManager inMemoryUserDetailsManager = new InMemoryUserDetailsManager();
+        inMemoryUserDetailsManager.createUser(User.withUsername(username).password(password).roles(SECURITY_ROLE_ACTUATOR,SECURITY_ROLE_ADMIN).build());
         http
                 .csrf().disable() //HTTP with Disable CSRF
                 .authorizeRequests() //Authorize Request Configuration
@@ -50,8 +60,9 @@ public class AdminSecurityConfiguration extends WebSecurityConfigurerAdapter {
                         "/**/jolokia").permitAll() //放开"/api/**"：为了给被监控端免登录注册并解决Log与Logger冲突
                 .and()
                 .authorizeRequests()
-                .antMatchers("/**").hasRole("USER")
-                .antMatchers("/**").hasRole("SUPERUSER")
+//                .antMatchers("/**").hasRole("USER")
+//                .antMatchers("/**").hasRole("SUPERUSER")
+                .antMatchers("/**").hasRole(SECURITY_ROLE_ACTUATOR)
                 .antMatchers("/**/**").authenticated()
                 .and() //Login Form configuration for all others
                 .formLogin()
@@ -63,7 +74,8 @@ public class AdminSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .deleteCookies("remove")
                 .logoutSuccessUrl("/login.html").permitAll()
                 .and()
-                .httpBasic();
-
+                .httpBasic()
+                .and()
+                .userDetailsService(inMemoryUserDetailsManager);
     }
 }

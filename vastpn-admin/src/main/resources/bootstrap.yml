@@ -2,7 +2,7 @@
 # 集群监控配置
 #################################################
 turbine:
-  app-config: vastpn-zuul,vastpn-config,vastpn-order,vastpn-user #收集监控信息的服务名
+  app-config: vastpn-zuul,vastpn-order,vastpn-user #收集监控信息的服务名
   combine-host-port: true
   cluster-name-expression: new String('default') #集群名称
 #################################################
@@ -11,13 +11,15 @@ turbine:
 eureka:
   instance:
     lease-renewal-interval-in-seconds: 10
-    lease-expiration-duration-in-seconds: 60
+    health-check-url-path: /actuator/health
     metadata-map:
       user.name: ${security.user.name}
       user.password: ${security.user.password}
   client:
+    registry-fetch-interval-seconds: 5
     serviceUrl:
       defaultZone: http://bu-admin:123456@localhost:9999/eureka/
+
 #################################################
 # 项目基础配置、远程配置中心、监控配置
 #################################################
@@ -36,6 +38,9 @@ spring:
         metadata:
           user.name: ${security.user.name}
           user.password: ${security.user.password}
+#         忽略指定微服务，多个逗号隔开
+      discovery:
+        ignored-services: ${spring.application.name}
   cloud:
     config:
       enabled: true
@@ -63,17 +68,11 @@ security:
 
 management:
   security:
-    enabled: false
+    enabled: true
     roles: SUPERUSER
-
-endpoints:
   health:
-    sensitive: true
-  cors:
-    allowed-methods: HEAD,GET,POST
-  shutdown:
-    enabled: true #启用shutdown
-    sensitive: true #禁用密码验证
+    defaults:
+      enabled: true
 
 #################################################
 # Feign配置
