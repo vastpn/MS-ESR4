@@ -51,4 +51,5 @@ security:
     password: 123456
   basic:
     enabled: true
-
+logging:
+  file: ./logs/${spring.application.name}/${spring.application.name}.log

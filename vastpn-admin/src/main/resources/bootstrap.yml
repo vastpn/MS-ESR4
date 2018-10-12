@@ -31,7 +31,7 @@ spring:
       turbine:
         location: vastpn-admin
       routes:
-        endpoints: env,metrics,trace,dump,jolokia,info,configprops,trace,logfile,refresh,flyway,heapdump,loggers,auditevents,hystrix.stream,turbine.stream
+        endpoints: env,metrics,trace,dump,jolokia,info,configprops,trace,logfile,refresh,heapdump,loggers,auditevents,hystrix.stream,turbine.stream
       username: ${security.user.name}
       password: ${security.user.password}
       client:
@@ -41,6 +41,9 @@ spring:
 #         忽略指定微服务，多个逗号隔开
       discovery:
         ignored-services: ${spring.application.name}
+      monitor:
+        connect-timeout: 10000
+        read-timeout: 10000
   cloud:
     config:
       enabled: true
@@ -117,4 +120,5 @@ hystrix:
     default:
       coreSize: 300
       maximumSize: 350
-
+logging:
+  file: ./logs/${spring.application.name}/${spring.application.name}.log

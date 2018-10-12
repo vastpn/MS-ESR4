@@ -110,3 +110,5 @@ management:
 endpoints:
   health:
     enabled: true
+logging:
+  file: ./logs/${spring.application.name}/${spring.application.name}.log
