@@ -22,3 +22,6 @@ spring:
 vastpn-order:
   feign:
     path: order/t1
+vastpn-email:
+  feign:
+    path: email/t1

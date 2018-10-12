@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Configuration后面的status，这个用于设置log4j2自身内部的信息输出，可以不设置，当设置成trace时，
+     你会看到log4j2内部各种详细输出。可以设置成OFF(关闭) 或 Error(只输出错误信息)。
+     30s 刷新此配置
+-->
+<configuration status="ERROR" monitorInterval="30">
+    <properties>
+        <!-- 指定项目名称 -->
+        <property name="applicationName">vastpn-email</property>
+        <!-- 指定日志文件目录 -->
+        <Property name="fileName">./logs/${applicationName}</Property>
+        <!-- 指定日志压缩文件目录 -->
+        <Property name="fileGz">./logs/${applicationName}/7z</Property>
+        <!-- 指定Info日志文件名称 -->
+        <Property name="infoFile">${applicationName}.log</Property>
+        <!-- 指定Error日志文件名称 -->
+        <Property name="errorFile">${applicationName}Error.log</Property>
+        <!-- 限制日志输出内容格式 -->
+        <Property name="LOG_PATTERN">%d{yyyy-MM-dd HH:mm:ss.SSS} %5p %t   [%C{2}.%M(%L)]|      %m%n</Property>
+        <!-- 限制单个文件大小 -->
+        <Property name="sizeBasedTriggeringPolicy">300 MB</Property>
+        <!-- 限制每天的最大压缩包个数，默认7个；超过了会覆盖之前的压缩文件 -->
+        <Property name="defaultRolloverStrategySize">30</Property>
+    </properties>
+
+    <Appenders>
+        <!-- 输出控制台日志 -->
+        <Console name="console" target="SYSTEM_OUT">
+            <!--控制台只输出level及以上级别的信息（onMatch），其他的直接拒绝（onMismatch）-->
+            <ThresholdFilter level="info" onMatch="ACCEPT" onMismatch="DENY"/>
+            <!-- 输出日志的格式 -->
+            <PatternLayout pattern="${LOG_PATTERN}"/>
+        </Console>
+
+        <!-- 记录所有Info信息；超过指定文件大小，自动压缩；压缩文件数量超过，按日期升序自动覆盖 -->
+        <RollingRandomAccessFile name="infoFile" fileName="${fileName}/${infoFile}" immediateFlush="false"
+                                 filePattern="${fileName}/info/$${date:yyyy-MM}/%d{yyyy-MM-dd}-%i.${infoFile}.gz">
+            <PatternLayout pattern="${LOG_PATTERN}"/>
+            <Policies>
+                <!-- 限制单个文件大小 -->
+                <SizeBasedTriggeringPolicy size="${sizeBasedTriggeringPolicy}"/>
+            </Policies>
+            <Filters>
+                <!-- 只记录info级别以上信息 -->
+                <ThresholdFilter level="info" onMatch="ACCEPT" onMismatch="NEUTRAL"/>
+            </Filters>
+            <!-- 指定每天的最大压缩包个数，默认7个，超过了会覆盖之前的 -->
+            <DefaultRolloverStrategy max="${defaultRolloverStrategySize}"/>
+        </RollingRandomAccessFile>
+
+        <!-- 记录所有error信息；超过指定文件大小，自动压缩；压缩文件数量超过，按日期升序自动覆盖 -->
+        <RollingRandomAccessFile name="errorFile" fileName="${fileName}/${errorFile}" immediateFlush="false"
+                                 filePattern="${fileName}/error/$${date:yyyy-MM}/%d{yyyy-MM-dd}-%i.${errorFile}.gz">
+            <PatternLayout pattern="${LOG_PATTERN}"/>
+            <Policies>
+                <!-- 限制单个文件大小 -->
+                <SizeBasedTriggeringPolicy size="${sizeBasedTriggeringPolicy}"/>
+            </Policies>
+            <Filters>
+                <!-- 只记录error级别信息 -->
+                <ThresholdFilter level="error" onMatch="ACCEPT" onMismatch="DENY"/>
+            </Filters>
+            <!-- 指定每天的最大压缩包个数，默认7个，超过了会覆盖之前的 -->
+            <DefaultRolloverStrategy max="${defaultRolloverStrategySize}"/>
+        </RollingRandomAccessFile>
+    </Appenders>
+
+    <!-- Mixed sync/async -->
+    <Loggers>
+        <!--过滤掉spring和mybatis的一些无用的DEBUG信息-->
+        <!--<Root level="info" includeLocation="true">-->
+            <!--<AppenderRef ref="console"/>-->
+            <!--<AppenderRef ref="infoFile"/>-->
+            <!--<AppenderRef ref="errorFile"/>-->
+        <!--</Root>-->
+
+        <!--异步日志记录-->
+        <AsyncRoot level="info" includeLocation="true">
+            <AppenderRef ref="console"/>
+            <AppenderRef ref="infoFile"/>
+            <!--<AppenderRef ref="errorFile"/>-->
+        </AsyncRoot>
+    </Loggers>
+
+</configuration>
