@@ -15,24 +15,62 @@ server:
     #【Http最大请求数量】
     max-http-post-size: 5000
 
-#################################################
-# 安全配置
-#################################################
+##########################################
+# 注册服务中心安全配置、Actuator 安全端点
+# 1、在 “spring-boot-starter-actuator” 依赖项目中，增加 “spring-boot-starter-security”依赖；
+# 2、可设置管理端口 ：management.port=
+# 3、必须开启才有效：management.security.enabled=true
+# 4、配合安全账户使用：
+#    security.user.name=
+#    security.user.password=
+##########################################
 security:
-  user:
+  user:                      #当前微服务安全账户信息
     name: bu-admin
     password: 123456
   basic:
-    enabled: true
-#开启动态刷新
-#management:
-#  endpoints:
-#    web:
-#      exposure:
-#        include:
-#        - bus-refresh
+    enabled: true           #开启Basic验证
 
-#注册中心
+management:
+  security:
+    enabled: true           #Actuator 开启安全验证
+    roles: SUPERUSER        #角色
+endpoints:
+  enabled: false            #全局关闭所有端点访问
+
+  health:
+    enabled: true           #开启心跳
+    sensitive: true         #敏感
+    time-to-live: 10000     #设置缓存时间
+  shutdown:
+    enabled: true           #开启远程关闭
+    sensitive: true         #敏感
+  dump:
+    enabled: true           #开启线程活动的快照
+    sensitive:              #敏感
+  metrics:
+    enabled: true           #开启应用程序度量信息，比如内存用量和HTTP请求计数
+    sensitive: true         #敏感
+  trace:
+    enabled: true           #开启基本的HTTP请求跟踪信息（时间戳、HTTP头等）
+    sensitive: true         #敏感
+  info:
+    enabled: true           #开启定制Info信息
+    sensitive: true         #敏感
+  refresh:
+    enabled: true           #开启配置刷新
+    sensitive: true         #敏感
+  jolokia:
+    enabled: true           #开启jolokia
+    sensitive: true         #敏感
+  jmx:
+    enabled: true
+  logfile:
+    enabled: true           #开启日志文件内容查找
+    sensitive: true         #敏感
+#################################################
+#注册中心配置
+#################################################
 eureka:
   instance:
     hostname: ${spring.application.name}
@@ -44,8 +82,10 @@ eureka:
       user.password: ${security.user.password}
   client:
     serviceUrl:
-      defaultZone: http://bu-admin:123456@localhost:9999/eureka/
-
+      defaultZone: http://${security.user.name}:${security.user.password}@localhost:9999/eureka/
+#################################################
+#项目基础配置、项目文件远程仓库配置
+#################################################
 spring:
   http:
     encoding:
@@ -67,16 +107,12 @@ spring:
           user.name: ${security.user.name}
           user.password: ${security.user.password}
 
-management:
-  security:
-    enabled: true # actuator 安全启用状态
-endpoints:
-  health:
-    enabled: true
-    sensitive: false
-    time-to-live: 10000
+##########################################
+# 日志路径配置(SBA中可以看到日志内容)
+##########################################
 logging:
   file: ./logs/${spring.application.name}/${spring.application.name}.log
+
 ###########################################SVN###########################################
 #spring:
 #  http:

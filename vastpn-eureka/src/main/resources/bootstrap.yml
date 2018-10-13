@@ -1,19 +1,4 @@
 ##########################################
-# 微服务基础配置
-##########################################
-spring:
-  application:
-    name: vastpn-eureka # 所有服务在注册中心自动转换为大写
-  profiles:
-    active: dev
-  boot:
-    admin:
-      client:
-        metadata:
-          user.name: ${security.user.name}
-          user.password: ${security.user.password}
-
-##########################################
 # undertow 容器配置
 ##########################################
 server:
@@ -30,6 +15,22 @@ server:
     max-http-post-size: 5000
 
 ##########################################
+# 微服务基础配置
+##########################################
+spring:
+  application:
+    name: vastpn-eureka
+  profiles:
+    active: dev
+  boot:
+    admin:
+      #SBA 安全访问客户端账户信息
+      client:
+        metadata:
+          user.name: ${security.user.name}
+          user.password: ${security.user.password}
+
+##########################################
 # 注册服务中心安全配置、Actuator 安全端点
 # 1、在 “spring-boot-starter-actuator” 依赖项目中，增加 “spring-boot-starter-security”依赖；
 # 2、可设置管理端口 ：management.port=
@@ -38,18 +39,56 @@ server:
 #    security.user.name=
 #    security.user.password=
 ##########################################
-management:
-  context-path: /${spring.application.name}
-  security:
-    enabled: true # actuator 安全启用状态
-endpoints:
-  health:
-    enabled: true
 security:
-  user:
+  user:                      #当前微服务安全账户信息
     name: bu-admin
     password: 123456
   basic:
+    enabled: true           #开启Basic验证
+
+management:
+  security:
+    enabled: true           #Actuator 开启安全验证
+    roles: SUPERUSER        #角色
+endpoints:
+  enabled: false            #全局关闭所有端点访问
+
+  health:
+    enabled: true           #开启心跳
+    sensitive: true         #敏感
+    time-to-live: 10000     #设置缓存时间
+  shutdown:
+    enabled: true           #开启远程关闭
+    sensitive: true         #敏感
+  dump:
+    enabled: true           #开启线程活动的快照
+    sensitive:              #敏感
+  metrics:
+    enabled: true           #开启应用程序度量信息，比如内存用量和HTTP请求计数
+    sensitive: true         #敏感
+  trace:
+    enabled: true           #开启基本的HTTP请求跟踪信息（时间戳、HTTP头等）
+    sensitive: true         #敏感
+  info:
+    enabled: true           #开启定制Info信息
+    sensitive: true         #敏感
+  refresh:
+    enabled: true           #开启配置刷新
+    sensitive: true         #敏感
+  heapdump:
+    enabled: true           #开启heapdump
+    sensitive: true         #敏感
+  jolokia:
+    enabled: true           #开启jolokia
+    sensitive: true         #敏感
+  jmx:
     enabled: true
+  logfile:
+    enabled: true           #开启日志文件内容查找
+    sensitive: true         #敏感
+
+##########################################
+# 日志路径配置(SBA中可以看到日志内容)
+##########################################
 logging:
   file: ./logs/${spring.application.name}/${spring.application.name}.log

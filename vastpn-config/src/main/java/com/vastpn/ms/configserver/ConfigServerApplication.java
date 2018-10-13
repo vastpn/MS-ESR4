@@ -25,7 +25,6 @@ import org.springframework.cloud.config.server.EnableConfigServer;
 @SpringCloudApplication
 public class ConfigServerApplication {
     public static void main(String[] args) {
-        log.info("配置中心启动开始");
         SpringApplication.run(ConfigServerApplication.class, args);
         log.info("配置中心启动成功");
     }

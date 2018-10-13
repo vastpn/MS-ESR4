@@ -16,6 +16,9 @@ eureka:
     # ureka client发送心跳给server端的频率
     # lease-renewal-interval-in-seconds < lease-expiration-duration-in-seconds
     lease-renewal-interval-in-seconds: 10
+    metadata-map:
+      user.name: ${security.user.name}
+      user.password: ${security.user.password}
   client:
     register-with-eureka: false
     fetch-registry: false

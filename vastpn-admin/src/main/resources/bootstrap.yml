@@ -1,3 +1,60 @@
+##########################################
+# 注册服务中心安全配置、Actuator 安全端点
+# 1、在 “spring-boot-starter-actuator” 依赖项目中，增加 “spring-boot-starter-security”依赖；
+# 2、可设置管理端口 ：management.port=
+# 3、必须开启才有效：management.security.enabled=true
+# 4、配合安全账户使用：
+#    security.user.name=
+#    security.user.password=
+##########################################
+security:
+  user:                      #当前微服务安全账户信息
+    name: bu-admin
+    password: 123456
+  basic:
+    enabled: true           #关闭Basic认证，开启SBA Maven Login security
+
+management:
+  security:
+    enabled: true           #Actuator 开启安全验证
+    roles: SUPERUSER        #角色
+endpoints:
+  enabled: false            #全局关闭所有端点访问
+
+  health:
+    enabled: true           #开启心跳
+    sensitive: true         #敏感
+    time-to-live: 10000     #设置缓存时间
+  shutdown:
+    enabled: true           #开启远程关闭
+    sensitive: true         #敏感
+  dump:
+    enabled: true           #开启线程活动的快照
+    sensitive:              #敏感
+  metrics:
+    enabled: true           #开启应用程序度量信息，比如内存用量和HTTP请求计数
+    sensitive: true         #敏感
+  trace:
+    enabled: true           #开启基本的HTTP请求跟踪信息（时间戳、HTTP头等）
+    sensitive: true         #敏感
+  info:
+    enabled: true           #开启定制Info信息
+    sensitive: true         #敏感
+  refresh:
+    enabled: true           #开启配置刷新
+    sensitive: true         #敏感
+  heapdump:
+    enabled: true           #开启heapdump
+    sensitive: true         #敏感
+  jolokia:
+    enabled: true           #开启jolokia
+    sensitive: true         #敏感
+  jmx:
+    enabled: true
+  logfile:
+    enabled: true           #开启日志文件内容查找
+    sensitive: true         #敏感
+
 #################################################
 # 集群监控配置
 #################################################
@@ -8,19 +65,22 @@ turbine:
   app-config: vastpn-zuul,vastpn-order,vastpn-user,vastpn-email
   combine-host-port: true
   cluster-name-expression: new String("default")
+
 #################################################
-# 注册中心配置
+#注册中心配置
 #################################################
 eureka:
   instance:
+    hostname: ${spring.application.name}
+    prefer-ip-address: true
     lease-renewal-interval-in-seconds: 10
+    lease-expiration-duration-in-seconds: 60
     metadata-map:
       user.name: ${security.user.name}
       user.password: ${security.user.password}
   client:
-    registry-fetch-interval-seconds: 5
     serviceUrl:
-      defaultZone: http://bu-admin:123456@localhost:9999/eureka/
+      defaultZone: http://${security.user.name}:${security.user.password}@localhost:9999/eureka/
 
 #################################################
 # 项目基础配置、远程配置中心、监控配置
@@ -55,8 +115,8 @@ spring:
       discovery:
         ignored-services: ${spring.application.name}
       monitor:
-        connect-timeout: 10000
-        read-timeout: 10000
+        connect-timeout: 60000
+        read-timeout: 60000
   cloud:
     config:
       enabled: true
@@ -70,22 +130,9 @@ spring:
         max-attempts: 6
         max-interval: 3000
         multiplier: 1.1
-#配置中心认证账户信息
-      username: bu-admin
-      password: 123456
-#当前微服务认证账户信息
-security:
-  user:
-    name: bu-admin
-    password: 123456
-#关掉SBA security框架自带的登陆弹出框
-  basic:
-    enabled: false
-
-management:
-  security:
-    enabled: true
-    roles: SUPERUSER
+      # 访问配置中心项目的账户信息
+      username: ${security.user.name}
+      password: ${security.user.password}
 
 #################################################
 # Feign配置
@@ -94,7 +141,7 @@ management:
 feign:
   httpclient:
     enabled: false
-    connection-timeout: 6000
+    connection-timeout: 60000
     max-connections: 500
     max-connections-per-route: 100
   okhttp:
@@ -112,6 +159,7 @@ feign:
       default:
         connectTimeout: 60000
         readTimeout: 60000
+
 #################################################
 # 超时配置
 # Feign+Ribbon 超时设置，默认已启用客户端负载ribbon;设置ribbon超时时间有效，其他配置无效
@@ -133,5 +181,9 @@ hystrix:
     default:
       coreSize: 300
       maximumSize: 350
+
+##########################################
+# 日志路径配置(SBA中可以看到日志内容)
+##########################################
 logging:
   file: ./logs/${spring.application.name}/${spring.application.name}.log
