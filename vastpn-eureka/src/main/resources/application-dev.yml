@@ -1,0 +1,31 @@
+#################################################
+#undertow运行容器配置(性能>Tomcat)
+#################################################
+server:
+  port: 9999
+
+#################################################
+# 注册服务中心配置
+#################################################
+eureka:
+  instance:
+    hostname: ${spring.application.name}
+    # 表示eureka server至上一次收到client的心跳之后，等待下一次心跳的超时时间，在这个时间内若没收到下一次心跳，则将移除该instance
+    # lease-expiration-duration-in-seconds > lease-renewal-interval-in-seconds
+    lease-expiration-duration-in-seconds: 60
+    # ureka client发送心跳给server端的频率
+    # lease-renewal-interval-in-seconds < lease-expiration-duration-in-seconds
+    lease-renewal-interval-in-seconds: 10
+    metadata-map:
+      user.name: ${security.user.name}
+      user.password: ${security.user.password}
+  client:
+    register-with-eureka: false
+    fetch-registry: false
+    service-url:
+      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
+  server:
+    #自我保护
+    enable-self-preservation: true
+    #清理间隔-单位毫秒
+    eviction-interval-timer-in-ms: 30000
