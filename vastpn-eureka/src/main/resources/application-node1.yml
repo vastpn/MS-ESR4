@@ -9,7 +9,7 @@ server:
 #################################################
 eureka:
   instance:
-    hostname: ${spring.application.name}
+    hostname: ${spring.application.name}-1
     # 表示eureka server至上一次收到client的心跳之后，等待下一次心跳的超时时间，在这个时间内若没收到下一次心跳，则将移除该instance
     # lease-expiration-duration-in-seconds > lease-renewal-interval-in-seconds
     lease-expiration-duration-in-seconds: 60
@@ -20,10 +20,10 @@ eureka:
       user.name: ${security.user.name}
       user.password: ${security.user.password}
   client:
-    register-with-eureka: false
-    fetch-registry: false
+    register-with-eureka: true
+    fetch-registry: true
     service-url:
-      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
+      defaultZone: http://${security.user.name}:${security.user.password}@${spring.application.name}-2:19999/eureka/,http://${security.user.name}:${security.user.password}@${spring.application.name}-3:29999/eureka/,http://${security.user.name}:${security.user.password}@${spring.application.name}-4:39999/eureka/
   server:
     #自我保护
     enable-self-preservation: true
