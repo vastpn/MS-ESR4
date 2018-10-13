@@ -74,6 +74,10 @@ feign:
 # timeoutInMilliseconds > (ribbonReadTimeout + ribbonConnectTimeout) * (maxAutoRetries + 1) * (maxAutoRetriesNextServer + 1);
 #################################################
 ribbon:
+  okhttp:
+    enabled: true
+  httpclient:
+    enabled: false
   ReadTimeout: 6000
   ConnectTimeout: 6000
 hystrix:
