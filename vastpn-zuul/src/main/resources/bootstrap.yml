@@ -56,6 +56,10 @@ zuul:
 #  2、路由方式为URL方式时，zuul.host超时生效
 #################################################
 ribbon:
+  okhttp:
+    enabled: true
+  httpclient:
+    enabled: false
   ReadTimeout: 6000
   ConnectTimeout: 6000
 #################################################
